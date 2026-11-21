@@ -1,0 +1,74 @@
+NOTICE - Third-party content under a different license
+
+The Zenodo record-level license field is Apache-2.0. That field and
+the Apache-2.0 grant cover ONLY the original material: the Lean
+sources, the paper, the documentation, and the verification scripts.
+Third-party OEIS content in this archive is licensed separately, as
+follows.
+
+Files containing verbatim OEIS material (kept solely as audit
+evidence for the transcription-fidelity check):
+
+ A083833-UNIFIE-paper.tex
+ sec-carry.tex
+ sec-A069881.tex
+ sec-A083829.tex
+ sec-A083831.tex
+ sec-A083833.tex
+ sec-A083835.tex
+ sec-zeros.tex
+ NOTICE.txt
+ README.md
+ anteriorite-A069881.md
+ anteriorite-A083829.md
+ anteriorite-A083830.md
+ anteriorite-A083831.md
+ anteriorite-A083832.md
+ anteriorite-A083833.md
+ anteriorite-A083834.md
+ oeis-verbatim.txt
+ A069881.lean
+ A083829.lean
+ A083830.lean
+ A083831.lean
+ A083832.lean
+ A083833.lean
+ A083834.lean
+ A083835.lean
+ A083836.lean
+ A083837.lean
+ A083838.lean
+ Repdigits_KP1.lean
+ Check_d2plus_A069881.lean
+ Spec_A069881.lean
+ Spec_A083829.lean
+ Spec_A083830.lean
+ Spec_A083831.lean
+ Spec_A083832.lean
+ Spec_A083833.lean
+ Spec_A083834.lean
+ Spec_A083835.lean
+ Spec_A083836.lean
+ Spec_A083837.lean
+ Spec_A083838.lean
+ Check_Spec_A069881.lean
+ Check_Spec_A083829.lean
+ Check_Spec_A083830.lean
+ Check_Spec_A083831.lean
+ Check_Spec_A083832.lean
+ Check_Spec_A083833.lean
+ Check_Spec_A083834.lean
+ Check_Spec_A083835.lean
+ Check_Spec_A083836.lean
+ Check_Spec_A083837.lean
+ Check_Spec_A083838.lean
+ metadata.json
+
+OEIS content is reproduced under the OEIS licensing terms
+(CC BY-NC-SA 4.0 for sequence data / CC BY-SA 4.0 for comments and
+references, see https://oeis.org/wiki/The_OEIS_End-User_License
+_Agreement). The OEIS Foundation is acknowledged as the source of
+the eleven entries A069881 and A083829-A083838
+(https://oeis.org/A069881, https://oeis.org/A083829, ...,
+https://oeis.org/A083838). This notice does not grant any right
+over the third-party OEIS material beyond its own license.

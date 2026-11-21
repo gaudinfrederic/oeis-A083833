@@ -1,0 +1,89 @@
+% sec-A083829.tex -- k = 3 section of the unified kp+1 paper.
+% Standalone fragment, \input by A083833-UNIFIE-paper.tex.
+% Environments and notation inherited from sec-carry.tex; the
+% guards below are no-ops once defined there.
+\providecommand{\IsPal}{\mathrm{IsPal}}
+\makeatletter
+\@ifundefined{theorem}{\newtheorem{theorem}{Theorem}}{}
+\@ifundefined{corollary}{\newtheorem{corollary}[theorem]{Corollary}}{}
+\@ifundefined{remark}{\newtheorem{remark}[theorem]{Remark}}{}
+\makeatother
+
+\section{Multiplier $k = 3$: A083829 and its image A083830}
+\label{sec:k3}
+
+On the entry A083829~\cite{oeis} -- palindromes $p$ such
+that $q = 3p+1$ is again a palindrome -- Robert Israel
+(February 23, 2023, tagged ``It appears'') recorded four
+observations, numbered here P1--P4 and quoted in
+Section~\ref{sec:intro}. The carry chain of
+Section~\ref{sec:carry} at $k = 3$ has
+$c_j = \bigl\lfloor\bigl(3\,(p \bmod 10^{j}) + 1\bigr)
+/10^{j}\bigr\rfloor$, so $c_0 = 1$ and $c_j \le 2$.
+
+\begin{theorem}[Israel's observations on A083829]
+\label{thm:k3-israel}
+Let $\IsPal(p,m)$ and $\IsPal(3p+1,m')$ with $m \ge 1$.
+Then:
+\begin{itemize}
+\item[(P1)] if $m$ is even, every digit of $p$ is $7$
+($p$ has the shape $77\ldots7$ of A002281);
+\item[(P2)] if $m \ge 2$ and some digit of $p$ differs
+from $7$ -- equivalently $p$ is not the all-$7$
+repdigit -- the leading pair $10\,a_{m-1} + a_{m-2}$
+lies in $\{14, 15, 16, 24, 25, 26\}$;
+\item[(P3)] no digit of $p$ lies in $\{3, 8, 9\}$;
+\item[(P4)] if some digit of $p$ equals $7$, then every
+digit equals $7$.
+\end{itemize}
+\end{theorem}
+
+\begin{corollary}[alphabet of the image; A083830]
+\label{cor:k3-alphabet}
+Under the same hypotheses, every digit of $q = 3p+1$
+avoids $\{0, 6, 9\}$, i.e.\ lies in
+$\{1,2,3,4,5,7,8\}$.
+\end{corollary}
+
+\begin{proof}
+Two branches of the shared carry lemma. \emph{Same
+length} ($m' = m$): Lemma~\ref{lem:same} forces a
+$2$-periodic chain, $m$ odd, $a_0 \in \{1,2\}$ and
+$c_1 = 0$, confining the digits to
+$a_j \in \{0,1,2\}$ at even positions and
+$a_j \in \{4,5,6\}$ at odd positions. \emph{Overflow}
+($m' = m+1$): the head equation forces $a_0 = 7$ and
+$c_1 = 2$; inductively the joint constraints admit one
+spurious state $(a_{j+1}, c_{j+2}) = (3,1)$, locally
+consistent but a dead end -- at the next position the
+shifted mirror congruence forces the digit $6$, and it
+would require $0 = \lfloor(3 \cdot 6 + c)/10\rfloor =
+\lfloor(18 + c)/10\rfloor$ -- so only
+$(7,2)$ survives in the interior: every digit is $7$,
+$p = 77\ldots7$ and $q = 23\ldots32$. Now P1 follows
+because even $m$ rules out the same-length case, which
+needs $m$ odd; P3 from the alphabet union
+$\{0,1,2\} \cup \{4,5,6\} \cup \{7\}$; P4 because a digit
+$7$ excludes the same-length alphabet; and P2 because in
+the non-repdigit same-length case $m$ is odd, so position
+$m-2$ is odd: $a_{m-1} = a_0 \in \{1,2\}$ and
+$a_{m-2} \in \{4,5,6\}$. For the image alphabet:
+same-length case $b_j = 3a_j + 1 \in \{1,4,7\}$ at even
+$j$ and $b_j = 3a_j \in \{12,15,18\}$ at odd $j$, digits
+in $\{1,2,4,5,7,8\}$; overflow case $q = 23\ldots32$,
+digits in $\{2,3\}$.
+\end{proof}
+
+\begin{remark}[P1 and the ``Includes A002281'' clause]
+\label{rem:k3-iff}
+P1 states the necessity direction; in the kernel the
+even-length classification is the literal iff
+\emph{even-length member $\Leftrightarrow$ repdigit
+$77\ldots7$}, so Israel's ``Includes A002281'' clause --
+every repdigit $77\ldots7$ is a member, image
+$23\ldots32$ -- is itself certified
+(Table~\ref{tab:lean}). P1--P4 are universal properties
+of the members, not an enumeration of the sequence. The
+$37$ published terms agree: their even-length members
+are exactly $77$, $7777$, $777777$.
+\end{remark}

@@ -1,0 +1,66 @@
+A083835 / A083836 - axiom audit report (#print axioms)
+=======================================================
+
+Scope: the complete iff classification of A083835 (k = 6) and its
+three image companions for A083836. Audited on the external CI
+runner (self-hosted VPS, workflow lean-run-vps.yml) on
+leanprover/lean4:v4.35.0 + mathlib v4.35.0 (pinned manifest).
+
+Command: `lake build` of the 9 shipped modules covering A083835
+and A083836 - A083835, A083836, Spec_A083835, Spec_A083836,
+Check_Spec_A083835, Check_Spec_A083836, Check_AntiVacuite_A083835,
+Check_AntiVacuite_A083836, AxiomsReport_A083835 - followed by
+evaluation of AxiomsReport_A083835.lean, which holds one
+`#print axioms` directive per audited declaration (the full list
+ships in this record as AxiomsReport_A083835.lean).
+
+Run: 44892113988 (2026-11-21), LEAN_EXIT=0, "Build completed
+successfully" - 9/9 modules built.
+
+Reported outcome (CI log, artifact lean-log-44892113988): every
+audited declaration depends at most on the three standard Lean
+axioms [propext, Classical.choice, Quot.sound]; the primitive
+digits/carry definitions (dgt, IsPal, crry and the small helper
+lemmas) report [propext] only or no axiom dependency.
+Zero sorryAx, zero ofReduceBool / native_decide, no additional
+trust axiom on any audited declaration.
+
+Declarations covered (60 #print axioms directives, verbatim list
+in AxiomsReport_A083835.lean):
+
+- A083835 module (33 decls, namespace A083835): dgt, IsPal, crry,
+  crry_zero, crry_le, decomp, div_ten_pow, qdgt, crry_succ,
+  dgt_eq_zero_of_ge, mp_cases, crry_m_eq_zero_iff, crry_sym_same,
+  crry_mirror, qdgt_sym_succ, carry_period_same, carry_even_same,
+  carry_odd_same, same_case_odd_a0, same_case_digits, same_case_c1,
+  succ_case_a0, succ_case_chain, succ_case_all9, succ_case_carry,
+  A083835_even, A083835_digits, all9_gives_pal, alt_gives_pal,
+  A083835 (the complete iff capstone), A083836_digits,
+  A083836_even, A083836_form.
+- A083836 module (3 re-exported decls): A083836_alphabet,
+  A083836_evenlen, A083836_shape.
+- Spec closures: SpecA083835, SpecA083836.
+- Spec-faithfulness: proven_A083835, proven_A083836.
+- Check_AntiVacuite_A083835 (7 decls, namespace
+  CheckAntiVacA083835): sat_even_branch, sat_odd_branch,
+  ablation_odd_tight, ablation_even_tight, ablation_nine_needed,
+  ablation_parity_needed, ablation_class_load_bearing.
+- Check_AntiVacuite_A083836 (6 decls, namespace
+  CheckAntiVacA083836): sat_even_branch, sat_odd_branch,
+  ablation_alphabet_nine, ablation_alphabet_five,
+  ablation_alphabet_two, ablation_shape_exact.
+
+Provenance note: this report consolidates the mission record
+(STATUS mission log, 2026-11-21) and the shipped harness module;
+the verbatim CI output is the GitHub Actions artifact of run
+44892113988 on the private mirror. Unlike the per-suite deposits
+of the companion records, no separate plain-text extraction of
+the #print axioms output was archived locally at mission time;
+the outcome above is the documented CI result, not a re-run.
+
+Limitations: #print axioms reports the kernel axiom closure of
+the named declarations only; the intermediate lemmas of the
+shipped modules are covered by the green build of the same job.
+This file is a kernel axiom report, not a seal replay: the
+three-kernel exports were produced for the A083833/A083834
+development only (see seal-A083833.txt, seal-A083834.txt).

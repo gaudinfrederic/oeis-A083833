@@ -1,0 +1,244 @@
+% sec-carry.tex -- the shared carry-chain device for the
+% kp+1 palindrome developments (k in {2,3,4,5,6}).
+% Standalone fragment, \input by the master file.
+% The theorem environments are declared here (first input
+% in document order); the later section files guard their
+% own declarations with \@ifundefined so that every
+% fragment also compiles standalone.
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\providecommand{\IsPal}{\mathrm{IsPal}}
+
+\section{The shared carry-chain device}
+\label{sec:carry}
+
+Fix $k \in \{2,3,4,5,6\}$. Let $p$ be a decimal
+palindrome of $m \ge 1$ digits, and assume $q = kp+1$ is
+again a palindrome, of $m'$ digits. Write
+$a_j = \lfloor p/10^j \rfloor \bmod 10$ for the $j$-th
+digit of $p$ (units $= j = 0$) and define the carry into
+position $j$ of the computation of $kp+1$ (the usual
+base-$10$ addition carry, cf.~\cite{holte}) by the closed
+form
+\begin{gather*}
+ c_j \;=\; \bigl\lfloor\bigl(k\,(p \bmod 10^j) + 1\bigr)\,
+ \big/\,10^j\bigr\rfloor ,
+ \\
+ \text{so that}\qquad
+ b_j = (k a_j + c_j) \bmod 10 ,
+ \qquad c_{j+1} = \bigl\lfloor\bigl(k a_j + c_j\bigr)\big/10
+ \bigr\rfloor ,
+\end{gather*}
+where $b_j$ is the $j$-th digit of $q$. Then $c_0 = 1$
+(the $+1$ is folded into the chain), $0 \le c_j \le k-1$,
+and since $kp+1 < 10^{m+1}$ the length satisfies
+$m' \in \{m, m+1\}$, with $m' = m$ iff $c_m = 0$.
+Palindromicity of $q$ reads $b_j = b_{m'-1-j}$. We write
+$R_m = (10^m-1)/9$ for the $m$-digit repunit and
+$d\,R_m$ for the repdigit $dd\dots d$. We write
+$\IsPal(p,m)$ for the predicate that $p$ is a positive
+$m$-digit integer ($1 \le p \le 9$ for $m = 1$, else
+$10^{m-1} \le p < 10^m$) whose base-$10$ digits satisfy
+$a_j = a_{m-1-j}$ for all $0 \le j < m$.
+
+\begin{lemma}[same length: symmetric $2$-periodic chain]
+\label{lem:same}
+If $m' = m$ then, for every $k \in \{2,3,4,5,6\}$:
+\emph{(i)} $c_j = c_{m-1-j}$ for all $j < m$;
+\emph{(ii)} $c_{j+1} = c_{j-1}$ for $1 \le j \le m-2$,
+hence $c_{2t} = 1$ for $2t \le m-1$ and
+$c_{2t+1} = c_1$ for $2t+1 \le m-1$;
+\emph{(iii)} $m$ is odd and $c_1 = 0$;
+\emph{(iv)} the digits obey the alternating classes
+$a_j \le \lfloor 8/k \rfloor$ at even positions and
+$\lceil 10/k \rceil \le a_j \le \lfloor 19/k \rfloor$ at
+odd positions; in particular
+$a_0 \in \{1,\dots,\lfloor 8/k \rfloor\}$.
+\end{lemma}
+
+\begin{proof}
+(i) $b_j = b_{m-1-j}$ reads
+$(k a_j + c_j) \equiv (k a_{m-1-j} + c_{m-1-j})
+\pmod{10}$; the input symmetry $a_{m-1-j} = a_j$ cancels
+$k a_j$ exactly, and the residues
+$c_j, c_{m-1-j} \le k-1 < 10$ coincide. (ii) Apply the
+recurrence at $j$ and at the mirror index $m-1-j$, then
+rewrite through (i) and the same digit symmetry. (iii) If
+$m$ is even, $m-1$ is odd: (i) at $j = 0$ gives
+$c_{m-1} = c_0 = 1$ while (ii) gives $c_{m-1} = c_1$, so
+the top recurrence reads
+$c_m = \lfloor(k a_0 + c_{m-1})/10\rfloor
+= \lfloor(k a_0 + 1)/10\rfloor = c_1 = 1$,
+contradicting $c_m = 0$. Hence $m$ is odd, $m-1$ is
+even, $c_{m-1} = 1$ by (ii), and
+$0 = c_m = \lfloor(k a_0 + 1)/10\rfloor$ forces
+$k a_0 \le 8$ and $c_1 = 0$. (iv) At even $j$ one has
+$c_j = 1$ and $c_{j+1} = 0$ (odd index, or $j+1 = m$), so
+$\lfloor(k a_j + 1)/10\rfloor = 0$, i.e.\ $k a_j \le 8$.
+At odd $j$, $c_j = c_1 = 0$ and $c_{j+1} = 1$ (even
+index), so $10 \le k a_j \le 19$.
+\end{proof}
+
+Table~\ref{tab:classes} lists the alternating classes of
+Lemma~\ref{lem:same}(iv) for each multiplier.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{c|c|c|c|c}
+\hline
+$k$ & entry & even positions & odd positions &
+$a_0$ (same length) \\
+\hline
+2 & A069881 & $\{0,1,2,3,4\}$ & $\{5,6,7,8,9\}$ &
+$\{1,2,3,4\}$ \\
+3 & A083829 & $\{0,1,2\}$ & $\{4,5,6\}$ & $\{1,2\}$ \\
+4 & A083831 & $\{0,1,2\}$ & $\{3,4\}$ & $\{1,2\}$ \\
+5 & A083833 & $\{0,1\}$ & $\{2,3\}$ & $\{1\}$ \\
+6 & A083835 & $\{0,1\}$ & $\{2,3\}$ & $\{1\}$ \\
+\hline
+\end{tabular}
+\caption{Digit classes forced on same-length members, by
+multiplier. Even-length members are excluded from this
+table: they all live in the overflow branch
+(Lemma~\ref{lem:overflow}).}
+\label{tab:classes}
+\end{table}
+
+\begin{lemma}[sufficiency of the alternating classes]
+\label{lem:altsuff}
+Let $k \in \{2,3,4,5,6\}$, let $m$ be odd, and let $p$ be
+an $m$-digit palindrome whose digits belong to the
+alternating classes of Table~\ref{tab:classes}: $a_0 \ge
+1$, $k a_j \le 8$ at even positions and
+$10 \le k a_j \le 19$ at odd positions. Then $kp+1$ is an
+$m$-digit palindrome.
+\end{lemma}
+
+\begin{proof}
+The chain closes by induction: $c_0 = 1$; at an even
+position $k a_{2t} \le 8$ gives $b_{2t} = k a_{2t} + 1 \le
+9$ and $c_{2t+1} = 0$; at an odd position
+$10 \le k a_{2t+1} \le 19$ gives $b_{2t+1} = k a_{2t+1} -
+10$ and $c_{2t+2} = 1$. Hence $c_{2t} = 1$ and
+$c_{2t+1} = 0$ throughout; as $m-1$ is even the top carry
+is $c_m = 0$, so $q = kp+1$ keeps length $m$. Since $j$
+and $m-1-j$ have the same parity and the output digit
+depends only on the parity of the position
+($b_{2t} = k a_{2t} + 1$, $b_{2t+1} = k a_{2t+1} - 10$),
+$a_{m-1-j} = a_j$ gives $b_{m-1-j} = b_j$.
+\end{proof}
+
+\begin{lemma}[overflow: the frozen chain]
+\label{lem:overflow}
+If $m' = m+1$ the head equation
+\begin{equation}
+ (k a_0 + 1) \bmod 10 \;=\; c_m ,
+ \qquad c_m = \bigl\lfloor\bigl(k a_0 + c_{m-1}\bigr)\big/10
+ \bigr\rfloor
+ \label{eq:head}
+\end{equation}
+(the first digit $b_0$ equals the new leading digit
+$b_m = c_m$) has, for each $k \in \{2,3,4,5,6\}$, a single
+solution: $a_0 = d_k$ and $c_m = v_k$, where $(d_k, v_k)$
+is the unique digit solution of $k d + 1 = 11 v$, namely
+\[
+ (k;\,d_k;\,v_k) \;=\;
+ (2;5;1),\; (3;7;2),\; (4;8;3),\; (5;2;1),\; (6;9;5) .
+\]
+The whole chain freezes: $c_j = v_k$ for $1 \le j \le m$
+and every digit of $p$ equals $d_k$. Hence $p = d_k\,R_m$
+is a repdigit, and $q = kp+1$ is the repunit $R_{m+1}$
+for $k \in \{2,5\}$, respectively the framed repdigit
+$v_k\,w_k^{\,m-1}\,v_k$ with
+$w_k = (k d_k + v_k) \bmod 10$ for $k \in \{3,4,6\}$,
+i.e.\ $2\,3^{\,m-1}\,2$, $3\,5^{\,m-1}\,3$ and
+$5\,9^{\,m-1}\,5$.
+\end{lemma}
+
+\begin{proof}
+\emph{Scheme I} ($k \in \{2,3,4,6\}$). The head equation
+\eqref{eq:head} is solved by a finite check on
+$a_0 \in \{1,\dots,9\}$ against $1 \le c_m \le k-1$ and
+$c_m = \lfloor(k a_0 + c_{m-1})/10\rfloor$: only
+$a_0 = d_k$ survives, giving $c_m = v_k$ and $c_1 = v_k$.
+The propagation at position $j+1$ uses the mirror couple
+\emph{(A)}
+$(k a_{j+1} + c_{j+1}) \equiv (k a_j + c_{m-j-1})
+\pmod{10}$ (the output symmetry folded by
+$a_{m-j-1} = a_j$) and \emph{(B)}
+$c_{m-j-1} = \lfloor(k a_{j+1} + c_{m-j-2})/10\rfloor$
+(the mirrored recurrence). For $k \in \{2,4,6\}$ the pair
+\emph{(A)}+\emph{(B)} has the single fixed point
+$(a_{j+1}, c_{j+2}) = (d_k, v_k)$: the chain is rigid in
+one step (for $k = 2$ the parity of $2a'+1$ forces the
+mirror carry to $1$, then $a' \in \{0,5\}$ meets
+$a' \ge 5$; for $k = 4$ and $k = 6$ the joint system is
+solved digit by digit over the ten possibilities of
+$a'$). For $k = 3$ the state $(a',c') = (3,1)$ is a
+spurious fixed point of \emph{(A)}+\emph{(B)}; it is
+killed one position later by the same equations shifted:
+the shifted mirror congruence forces the next digit to
+be $6$ (so $3 \cdot 6 = 18$), and the shifted mirrored
+recurrence would then require the carry
+$0 = \lfloor(18 + c)/10\rfloor$, impossible, so the induction runs
+over $j \le m-2$ and the last digit is closed by
+palindromy $a_{m-1} = a_0$.
+\emph{Scheme II} ($k = 5$). The multiplier $5$ separates
+carries mod $10$: $5a \bmod 10 \in \{0,5\}$ leaves
+$c < 5$ readable in $b_j$, so the mirror congruence
+yields directly $a_j \equiv a_{j-1} \pmod 2$ \emph{and}
+$c_j = c_{m-j}$ ($1 \le j \le m-1$). A $2$-cycle
+$g(u,a) = w$, $g(w,a) = u$ with $u \ne w$ is impossible
+($11\,|u-w| \le 9$), hence the chain is constant
+$c_j = v$ without induction; \eqref{eq:head} forces
+$v = 1$ and $a_0 = 2$, and
+$\lfloor(5 a_j + 1)/10\rfloor = 1$ with the common parity
+gives $a_j = 2$ throughout. In all cases $b_0 = b_m = v_k$
+and $b_j = (k d_k + v_k) \bmod 10$ inside, which is the
+displayed image form.
+\end{proof}
+
+\begin{remark}[what the factorization actually shares]
+\label{rem:honest}
+The same-length half (Lemma~\ref{lem:same}) is literally
+the same proof in all five certified developments; the
+overflow half factors the \emph{statement} (frozen
+constant chain, repdigit member) but not the proof:
+$k \in \{2,4,6\}$ is rigid in one step, $k = 3$ needs the
+one-step dead-end lookahead, and $k = 5$ goes through the
+preserved mirror symmetry and the no-$2$-cycle argument,
+a route closed to the other multipliers where
+$k a \bmod 10$ does not separate the carry. In the kernel
+development the machinery is likewise duplicated per
+multiplier: there is no parametrized general lemma, the
+same carry-chain argument is formalized for each $k$
+(Section~\ref{sec:lean}).
+\end{remark}
+
+\begin{remark}[the multipliers $k = 1$ and
+$k \in \{7,8,9\}$]
+\label{rem:k1}
+For $k = 1$ the class is finite: $S_1 = \{1,\dots,8\}$.
+An $m$-digit palindrome with $m \ge 2$ and $a_0 \le 8$
+would give $p+1$ the same leading digit $a_0$ but last
+digit $a_0+1$, never palindromic; $a_0 = 9$ makes $p+1$
+end in $0$, never a palindrome either. This elementary
+case needs no machine. For $k \in \{7,8,9\}$ the head
+key $kd+1 = 11v$ still has solutions -- $(d,v) = (3,2)$,
+$(4,3)$, $(6,5)$ -- predicting repdigit overflow families
+$33\ldots3 \mapsto 2\,3^{\,m-1}\,2$,
+$44\ldots4 \mapsto 3\,5^{\,m-1}\,3$ and
+$66\ldots6 \mapsto 5\,9^{\,m-1}\,5$; the displayed terms
+of A083837 agree ($a(7) = a(8) = 1$, $a(9) = 6$, and
+$7\cdot33+1 = 232$, $8\cdot44+1 = 353$,
+$9\cdot66+1 = 595$ are palindromes). The full
+classification of those entries is outside the certified
+perimeter of this paper.
+\end{remark}

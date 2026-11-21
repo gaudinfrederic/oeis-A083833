@@ -1,0 +1,60 @@
+A083837 / A083838 - axiom audit report (#print axioms)
+=======================================================
+
+Scope: the twenty-one certified zeros of A083837 (universal
+nonexistence theorems upgrading Chandler's 2003 finite-search
+bound) and the twenty-one image corollaries of A083838. Audited
+on the external CI runner (self-hosted VPS, workflow
+lean-run-vps.yml) on leanprover/lean4:v4.35.0 + mathlib v4.35.0
+(pinned manifest).
+
+Command: `lake build` of the 9 shipped modules covering A083837
+and A083838 - A083833 (imported base), A083837, A083838,
+Spec_A083837, Spec_A083838, Check_Spec_A083837,
+Check_Spec_A083838, Check_AntiVacuite_A083837,
+AxiomsReport_A083837 - followed by evaluation of
+AxiomsReport_A083837.lean, which holds one `#print axioms`
+directive per audited declaration (the full list ships in this
+record as AxiomsReport_A083837.lean).
+
+Run: 44895777039 (2026-11-21), LEAN_EXIT=0, "Build completed
+successfully (9064 jobs)" - 9/9 modules built.
+
+Reported outcome (CI log, artifact lean-log-44895777039; mission
+record of 2026-11-21): every audited declaration depends at most
+on the three standard Lean axioms
+[propext, Classical.choice, Quot.sound]; several generic-machine
+lemmas report a smaller set ([propext] alone for revW, okP,
+escapesIn; [propext, Quot.sound] for prefix_ext). Zero sorryAx,
+zero ofReduceBool / native_decide, no additional trust axiom on
+any audited declaration.
+
+Declarations covered (50 #print axioms directives, verbatim list
+in AxiomsReport_A083837.lean):
+
+- generic obstruction machine (namespace A083837): revW, okP,
+  escapesIn, lowW, low_rev, dgt_sum_low, revW_invol, revW_mod,
+  prefix_range, prefix_ext, prefix_escapes, zero_of_escapes ;
+- per-index nonexistence lemmas no_wit_<k> for the 21 zero
+  indices k in {12, 17, 23, 31, 37, 41, 42, 48, 51, 53, 61, 64,
+  71, 74, 79, 81, 86, 91, 96, 101, 103} ;
+- capstone theorems A083837_<k>_zero (8 of the 21 printed as the
+  audit sample: 12, 17, 23, 48, 74, 79, 101, 103) ;
+- image corollaries A083838_<k>_zero (audit sample: 12, 48, 79,
+  101) ;
+- spec closures: proven_A083837, proven_A083838.
+
+Provenance note: this report consolidates the mission record
+(STATUS mission log, 2026-11-21) and the shipped harness module;
+the verbatim CI output is the GitHub Actions artifact of run
+44895777039 on the private mirror. Unlike the per-suite deposits
+of the companion records, no separate plain-text extraction of
+the #print axioms output was archived locally at mission time;
+the outcome above is the documented CI result, not a re-run.
+
+Limitations: #print axioms reports the kernel axiom closure of
+the named declarations only; the intermediate lemmas of the
+shipped modules are covered by the green build of the same job.
+This file is a kernel axiom report, not a seal replay: the
+three-kernel exports were produced for the A083833/A083834
+development only (see seal-A083833.txt, seal-A083834.txt).

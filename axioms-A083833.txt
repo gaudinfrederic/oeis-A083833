@@ -1,0 +1,52 @@
+A083833 - axiom report (#print axioms)
+
+Source: CI run on the project lean-runner (build success).
+Scope: the harness modules AxiomsReport_A083833.lean,
+Check_Spec_A083833.lean and Check_AntiVacuite_A083833.lean
+(each imports the target module A083833.lean closure).
+The harness .lean files ship in A083833-seal-exports.tar.zst,
+not in this archive.
+
+Outcome: every listed declaration depends at most on
+{propext, Classical.choice, Quot.sound} or has no axiom
+dependency. ofReduceBool/sorryAx/trustCompiler: 0 occurrences.
+
+Check_AntiVacuite_A083833.lean:77  CheckAntiVacA083833.sat_even_branch  : [propext, Classical.choice, Quot.sound]
+Check_AntiVacuite_A083833.lean:78  CheckAntiVacA083833.sat_odd_branch  : [propext, Classical.choice, Quot.sound]
+Check_AntiVacuite_A083833.lean:79  CheckAntiVacA083833.ablation_C2_needs_even  : [propext]
+Check_AntiVacuite_A083833.lean:80  CheckAntiVacA083833.ablation_C1_tight  : [propext]
+Check_Spec_A083833.lean:21  proven_A083833  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:23  A083833.dgt  : [propext]
+AxiomsReport_A083833.lean:24  A083833.IsPal  : [propext]
+AxiomsReport_A083833.lean:25  A083833.crry  : [propext]
+AxiomsReport_A083833.lean:26  A083833.crry_zero  : [propext]
+AxiomsReport_A083833.lean:27  A083833.crry_le  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:28  A083833.decomp  : [propext, Quot.sound]
+AxiomsReport_A083833.lean:29  A083833.div_ten_pow  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:30  A083833.qdgt  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:31  A083833.crry_succ  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:32  A083833.dgt_eq_zero_of_ge  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:33  A083833.mp_cases  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:34  A083833.crry_m_eq_zero_iff  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:35  A083833.crry_sym_same  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:36  A083833.crry_sym_succ  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:37  A083833.dgt_parity_succ  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:38  A083833.carry_const_succ  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:39  A083833.carry_period_same  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:40  A083833.carry_even_same  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:41  A083833.carry_odd_same  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:42  A083833.same_case_odd_a0  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:43  A083833.same_case_digits  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:44  A083833.succ_case_all2  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:45  A083833.A083833_C1  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:46  A083833.A083833_C2  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:47  A083833.same_case_c1  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:48  A083833.succ_case_carry  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:49  A083833.A083834_C1  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:50  A083833.A083834_C2  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:53  SpecA083833  : [propext]
+AxiomsReport_A083833.lean:56  proven_A083833  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:59  CheckAntiVacA083833.sat_even_branch  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:60  CheckAntiVacA083833.sat_odd_branch  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083833.lean:61  CheckAntiVacA083833.ablation_C2_needs_even  : [propext]
+AxiomsReport_A083833.lean:62  CheckAntiVacA083833.ablation_C1_tight  : [propext]

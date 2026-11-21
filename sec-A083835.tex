@@ -1,0 +1,113 @@
+% sec-A083835.tex -- k = 6 section of the unified kp+1
+% paper. Standalone fragment, \input by
+% A083833-UNIFIE-paper.tex.
+% Environments and notation inherited from sec-carry.tex; the
+% guards below are no-ops once defined there.
+\providecommand{\IsPal}{\mathrm{IsPal}}
+\makeatletter
+\@ifundefined{theorem}{\newtheorem{theorem}{Theorem}}{}
+\@ifundefined{corollary}{\newtheorem{corollary}[theorem]{Corollary}}{}
+\@ifundefined{remark}{\newtheorem{remark}[theorem]{Remark}}{}
+\makeatother
+
+\section{Multiplier $k = 6$: A083835 and its image A083836}
+\label{sec:k6}
+
+OEIS A083835~\cite{oeis} (Murthy and Srikanth, May 2003;
+extended by R.~Chandler) lists the palindromes $p$ such
+that $q = 6p+1$ is again a palindrome:
+$1$, $9$, $99$, $121$, $131$, $999$, $9999$, $12021$,
+$12121$, $13031$, $13131$, \ldots; A083836 is the image
+sequence $7$, $55$, $595$, $727$, $787$, $5995$,
+$59995$, $72127$, \ldots
+No conjecture is recorded on either entry. At this
+multiplier the shared device yields not only the
+necessary structure but the complete classification,
+proved in both directions in the kernel.
+
+\begin{theorem}[complete classification of A083835]
+\label{thm:k6-iff}
+Let $\IsPal(p,m)$ with $m \ge 1$. Then $6p+1$ is a
+palindrome of some length $m'$ if and only if exactly
+one of the following holds:
+\begin{itemize}
+\item[(i)] $m' = m + 1$ and every digit of $p$ equals
+$9$, i.e.\ $p = 99\ldots9$ is the repdigit $9\,R_m$;
+\item[(ii)] $m' = m$, $m$ is odd, and the digits of $p$
+obey the alternating classes $a_j \in \{0,1\}$ at even
+positions and $a_j \in \{2,3\}$ at odd positions.
+\end{itemize}
+\end{theorem}
+
+\begin{corollary}[image companions: A083836]
+\label{cor:k6-img}
+Under the same hypotheses, every digit of $q = 6p+1$
+avoids $\{0,3,4,6\}$, i.e.\ lies in $\{1,2,5,7,8,9\}$.
+If $m'$ is even then $q$ has the exact form
+$5\,9^{\,m'-2}\,5$: endpoints $5$, all interior digits
+$9$ (the images of the repdigit branch).
+\end{corollary}
+
+\begin{proof}
+Necessity is the instantiation of
+Section~\ref{sec:carry} at $k = 6$: carries
+$c_j = \bigl\lfloor\bigl(6\,(p \bmod 10^j)+1\bigr)
+/10^j\bigr\rfloor \le 5$ with $c_0 = 1$. At constant
+length, Lemma~\ref{lem:same} gives $m$ odd, $a_0 = 1$
+and the classes $\{0,1\}$/$\{2,3\}$; at overflow, the
+head equation $(6a_0+1) \bmod 10 = c_m \in \{1,\dots,5\}$
+has the single solution $a_0 = 9$, $c_m = 5$, and the
+mirrored local system \emph{(A)}+\emph{(B)} of
+Lemma~\ref{lem:overflow} has the unique fixed point
+$(a',c') = (9,5)$ -- verified by a finite check over the
+ten digits, with no residual spurious state (unlike
+$k = 3$): every digit is $9$ and
+$q = 5\,9^{\,m-1}\,5$. For the converse directions the
+carry chain is rebuilt from the prescribed digits: an
+all-$9$ palindrome of length $m$ gives
+$6p+1 = 5\,9^{\,m-1}\,5$, a palindrome of length $m+1$;
+an odd-length palindrome with the alternating classes
+closes the chain $c_j = 1$ at even $j$, $c_j = 0$ at odd
+$j$, gives $c_m = 0$ and a palindromic $6p+1$ of length
+$m$. Both directions are kernel-verified
+(Table~\ref{tab:lean}). The image alphabet reads off
+the branches: same-length digits in $\{1,2,7,8\}$,
+overflow digits in $\{5,9\}$.
+\end{proof}
+
+\begin{remark}[the even-length members of A083835]
+\label{rem:k6-even}
+Since the same-length branch requires $m$ odd, every
+even-length member of A083835 is the repdigit
+$99\ldots9$, with image $5\,9^{\,m'-2}\,5$; the
+published even-length terms are exactly $99$, $9999$,
+$999999$, $99999999$. The same parity argument gives
+$q$ even-length only in the overflow branch, which is
+the second clause of Corollary~\ref{cor:k6-img}.
+\end{remark}
+
+\begin{remark}[the shared alternating classes at
+$k = 5$ and $k = 6$]
+\label{rem:converse}
+Table~\ref{tab:classes} shows the same-length classes
+coincide at $k = 5$ and $k = 6$: $\{0,1\}$ at even
+positions, $\{2,3\}$ at odd positions, $a_0 = 1$. Hence
+every non-repdigit member of A083833 carries a digit
+structure which Theorem~\ref{thm:k6-iff} certifies to
+be a member of A083835: the inclusion
+\[
+\{\text{non-repdigit terms of A083833}\}
+\;\subseteq\;
+\{\text{non-repdigit terms of A083835}\}
+\]
+is kernel-verified, and the $29$ published terms of the
+two entries display the same non-repdigit members
+($121, 131, 12021, 12121, 13031, \ldots$). The reverse
+inclusion follows on paper: for the same classes the
+$k = 5$ chain closes with the same alternating carries
+$1,0,1,0,\ldots$ (the generic instance is
+Lemma~\ref{lem:altsuff}) -- the exact analogue of the certified
+$k = 6$ converse, and likewise kernel-certified at
+$k = 5$ by \texttt{alt\_gives\_pal}
+(Remark~\ref{rem:sufftask}).
+\end{remark}

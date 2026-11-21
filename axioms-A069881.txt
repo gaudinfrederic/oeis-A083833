@@ -1,0 +1,16 @@
+A069881 - axiom check (#print axioms on the shipped theorems)
+
+Command: `lake env lean Check_AxiomsE10_A069881.lean`
+(dedicated audit module, one per target; run on the external
+CI runner, 2026-11-13, exit 0). mathlib v4.35.0, toolchain
+leanprover/lean4:v4.35.0. The Check_* harness modules live
+beside the proof modules on the CI runner and are not
+bundled in this record; the shipped proof module is
+A069881.lean (lean-artifact/).
+
+'A069881.A069881_even' depends on axioms: [propext, Classical.choice, Quot.sound]
+'A069881.A069881_overflow' depends on axioms: [propext, Classical.choice, Quot.sound]
+'A069881.A069881_image_odd' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+Reading: only the 3 standard Lean axioms - no sorryAx, no
+ofReduceBool/native_decide, no trust axiom.

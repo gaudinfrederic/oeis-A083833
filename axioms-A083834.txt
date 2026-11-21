@@ -1,0 +1,67 @@
+A083834 - axiom report (#print axioms)
+
+Source: external CI run, build success, toolchain
+leanprover/lean4:v4.35.0, mathlib v4.35.0.
+
+Scope: the audit harness module AxiomsReport_A083834.lean,
+which imports the closed target and prints the axiom base
+of every audited declaration. The harnesses
+Check_Spec_A083834.lean, Check_AntiVacuite_A083834.lean and
+AxiomsReport_A083834.lean were used on the CI runner and are
+bundled in A083834-seal-exports.tar.zst (dossier root);
+the shipped proof modules are A083833.lean and
+A083834.lean (lean-artifact/).
+
+Verdict: PASS - every audited declaration depends only on
+{propext, Classical.choice, Quot.sound} or has no axiom
+dependency. ofReduceBool / sorryAx / trustCompiler:
+0 occurrences.
+
+A083834.lean:40  A083834_alphabet  : [propext, Classical.choice, Quot.sound]
+A083834.lean:34  A083834_starts6_odd  : [propext, Classical.choice, Quot.sound]
+Check_Spec_A083834.lean:22  proven_A083834  : [propext, Classical.choice, Quot.sound]
+Check_AntiVacuite_A083834.lean:90  CheckAntiVacA083834.sat_even_branch  : [propext, Classical.choice, Quot.sound]
+Check_AntiVacuite_A083834.lean:91  CheckAntiVacA083834.sat_odd_branch  : [propext, Classical.choice, Quot.sound]
+Check_AntiVacuite_A083834.lean:92  CheckAntiVacA083834.ablation_C2_needs_even  : [propext]
+Check_AntiVacuite_A083834.lean:93  CheckAntiVacA083834.ablation_C1_tight  : [propext]
+AxiomsReport_A083834.lean:24  A083834_alphabet  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:25  A083834_repunit  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:28  SpecA083834  : [propext]
+AxiomsReport_A083834.lean:31  proven_A083834  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:34  CheckAntiVacA083834.sat_odd_branch  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:35  CheckAntiVacA083834.sat_even_branch  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:36  CheckAntiVacA083834.ablation_C2_needs_even  : [propext]
+AxiomsReport_A083834.lean:37  CheckAntiVacA083834.ablation_C1_tight  : [propext]
+AxiomsReport_A083834.lean:40  A083833.dgt  : [propext]
+AxiomsReport_A083834.lean:41  A083833.IsPal  : [propext]
+AxiomsReport_A083834.lean:42  A083833.crry  : [propext]
+AxiomsReport_A083834.lean:43  A083833.crry_zero  : [propext]
+AxiomsReport_A083834.lean:44  A083833.crry_le  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:45  A083833.decomp  : [propext, Quot.sound]
+AxiomsReport_A083834.lean:46  A083833.div_ten_pow  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:47  A083833.qdgt  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:48  A083833.crry_succ  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:49  A083833.dgt_eq_zero_of_ge  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:50  A083833.mp_cases  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:51  A083833.crry_m_eq_zero_iff  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:52  A083833.crry_sym_same  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:53  A083833.crry_sym_succ  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:54  A083833.dgt_parity_succ  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:55  A083833.carry_const_succ  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:56  A083833.carry_period_same  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:57  A083833.carry_even_same  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:58  A083833.carry_odd_same  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:59  A083833.same_case_odd_a0  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:60  A083833.same_case_digits  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:61  A083833.succ_case_all2  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:62  A083833.A083833_C1  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:63  A083833.A083833_C2  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:64  A083833.same_case_c1  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:65  A083833.succ_case_carry  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:66  A083833.A083834_C1  : [propext, Classical.choice, Quot.sound]
+AxiomsReport_A083834.lean:67  A083833.A083834_C2  : [propext, Classical.choice, Quot.sound]
+
+Independent confirmation: the leanexport exports
+A083834_proven.ndjson and A083834_starts6_odd.ndjson were
+re-checked by nanoda_bin (strict axiom whitelist), con-leche
+and con-ron, all exit 0 - see VERIFICATIONS/SEAL/.

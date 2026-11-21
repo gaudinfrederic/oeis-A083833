@@ -1,0 +1,35 @@
+# SEAL A083833 - preuve de sceau rejouable (protocole N5D)
+
+Les theoremes vedettes du depot ont ete serialises via `leanexport`
+puis re-verifies par trois implementations independantes du noyau
+Lean. Ce dossier permet de REJOUER la verification sans installer
+Lean et sans faire confiance aux sources .lean (l'enonce se lit
+dans le .ndjson valide par les noyaux tiers).
+
+## Exports scelles (fichier : ../A083833-seal-exports.tar.zst)
+
+| Export | Declaration(s) | nanoda | con-leche | con-ron |
+|---|---|---|---|---|
+| A083833_proven.ndjson | proven_A083833 | 0 | 0 | 0 |
+
+nanoda : `unpermitted_axiom_hard_error=true`,
+`permitted_axioms=[propext, Classical.choice, Quot.sound]` -
+tout axiome interdit (sorryAx, native_decide...) = rejet dur.
+con-leche / con-ron : verdict `accepted` sur l'integralite de
+chaque cloture transitive. Verdicts consignes dans le journal
+VPS `pub-seal.log` (service pub-seal7, 2026-11-13).
+
+## Commandes exactes (VPS lean-runner, leanprover/lean4:v4.35.0)
+
+```
+lake env leanexport <module> -- <decl> > <tag>.ndjson
+nanoda_bin <cfg json>            # permitted_axioms stricts
+con-leche --jobs=4 <export>
+con-ron   --jobs=4 <export>
+```
+
+## Rejouer
+
+`./replay_seal.sh` - extrait les exports, verifie les hashes,
+soumet chaque export aux trois noyaux (exit 0 exige), puis
+affiche la declaration noyau pour inspection de l'enonce.

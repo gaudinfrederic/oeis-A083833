@@ -1,0 +1,32 @@
+A083836 - axiom audit report (#print axioms)
+=============================================
+
+The A083836 (image sequence q = 6p+1) results are proved inside
+the A083835 module (namespace A083835, declarations
+A083836_digits / A083836_even / A083836_form) and re-exported by
+the thin module A083836.lean (A083836_alphabet / _evenlen /
+_shape). They were audited together with the A083835 capstone in
+the same CI job; see axioms-A083835.txt for the full report
+(run 44892113988, LEAN_EXIT=0, all audited declarations at most
+[propext, Classical.choice, Quot.sound]).
+
+Audited A083836 declarations (from AxiomsReport_A083835.lean,
+which ships in this record):
+
+- in module A083835.lean (namespace A083835): A083836_digits,
+  A083836_even, A083836_form ;
+- in module A083836.lean (top level): A083836_alphabet,
+  A083836_evenlen, A083836_shape ;
+- spec closure: SpecA083836, proven_A083836 ;
+- non-vacuity anchors (namespace CheckAntiVacA083836):
+  sat_even_branch, sat_odd_branch, ablation_alphabet_nine,
+  ablation_alphabet_five, ablation_alphabet_two,
+  ablation_shape_exact.
+
+Reported outcome (CI log, artifact lean-log-44892113988):
+[propext, Classical.choice, Quot.sound] at most on every audited
+declaration - zero sorryAx, zero ofReduceBool / native_decide.
+
+Provenance note: same consolidation caveat as
+axioms-A083835.txt - outcome documented from the CI run log of
+the mission record, not re-extracted locally.

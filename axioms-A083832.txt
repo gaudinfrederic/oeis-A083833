@@ -1,0 +1,20 @@
+NOTE - ce fichier remplace le template N4 A083832-axioms.txt
+qui navait jamais ete rempli (placeholders rid/t/
+AxiomsReport_*). Le contenu ci-dessous est le rapport reel
+VERIFICATIONS/axioms.txt de ce dossier, copie pour garder le
+nom de fichier historique reference par les manifests.
+
+Commande : `lake env lean Check_AxiomsE10_A083832.lean` (fichier Check dedie, un
+module par cible - eclatement de l'audit axiomes E10, evite les
+collisions de noms top-level entre modules soeurs). Projet
+le projet, mathlib v4.35.0, toolchain leanprover/lean4:v4.35.0,
+external CI runner, run 2026-11-13, exit 0.
+
+'A083832_alphabet' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+Lecture : seuls les 3 axiomes standard de Lean - zero
+sorryAx, zero ofReduceBool/._native., aucun axiome de
+confiance. Le sceau N5 (exports leanexport par theoreme,
+trio nanoda_bin + con-leche + con-ron, exits 0) confirme
+mecaniquement la meme conclusion sur la cloture transitive
+de chaque theoreme audite.

@@ -1,0 +1,168 @@
+name = "kp1-palindromes"
+version = "1.0.0"
+defaultTargets = ["A069881", "A083829", "A083830", "A083831", "A083832", "A083833", "A083834", "A083835", "A083836", "A083837", "A083838", "Repdigits_KP1", "Spec_A069881", "Spec_A083829", "Spec_A083830", "Spec_A083831", "Spec_A083832", "Spec_A083833", "Spec_A083834", "Spec_A083835", "Spec_A083836", "Spec_A083837", "Spec_A083838", "Check_Spec_A069881", "Check_Spec_A083829", "Check_Spec_A083830", "Check_Spec_A083831", "Check_Spec_A083832", "Check_Spec_A083833", "Check_Spec_A083834", "Check_Spec_A083835", "Check_Spec_A083836", "Check_Spec_A083837", "Check_Spec_A083838", "Check_AntiVacuite_A069881", "Check_AntiVacuite_A083829", "Check_AntiVacuite_A083830", "Check_AntiVacuite_A083831", "Check_AntiVacuite_A083832", "Check_AntiVacuite_A083833", "Check_AntiVacuite_A083834", "Check_AntiVacuite_A083835", "Check_AntiVacuite_A083836", "Check_AntiVacuite_A083837", "Check_d2plus_A069881", "AxiomsReport_A083829", "AxiomsReport_A083830", "AxiomsReport_A083831", "AxiomsReport_A083832", "AxiomsReport_A083833", "AxiomsReport_A083834", "AxiomsReport_A083835", "AxiomsReport_A083837"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.35.0"
+
+[[lean_lib]]
+name = "A069881"
+
+[[lean_lib]]
+name = "A083829"
+
+[[lean_lib]]
+name = "A083830"
+
+[[lean_lib]]
+name = "A083831"
+
+[[lean_lib]]
+name = "A083832"
+
+[[lean_lib]]
+name = "A083833"
+
+[[lean_lib]]
+name = "A083834"
+
+[[lean_lib]]
+name = "A083835"
+
+[[lean_lib]]
+name = "A083836"
+
+[[lean_lib]]
+name = "A083837"
+
+[[lean_lib]]
+name = "A083838"
+
+[[lean_lib]]
+name = "Repdigits_KP1"
+
+[[lean_lib]]
+name = "Spec_A069881"
+
+[[lean_lib]]
+name = "Spec_A083829"
+
+[[lean_lib]]
+name = "Spec_A083830"
+
+[[lean_lib]]
+name = "Spec_A083831"
+
+[[lean_lib]]
+name = "Spec_A083832"
+
+[[lean_lib]]
+name = "Spec_A083833"
+
+[[lean_lib]]
+name = "Spec_A083834"
+
+[[lean_lib]]
+name = "Spec_A083835"
+
+[[lean_lib]]
+name = "Spec_A083836"
+
+[[lean_lib]]
+name = "Spec_A083837"
+
+[[lean_lib]]
+name = "Spec_A083838"
+
+[[lean_lib]]
+name = "Check_Spec_A069881"
+
+[[lean_lib]]
+name = "Check_Spec_A083829"
+
+[[lean_lib]]
+name = "Check_Spec_A083830"
+
+[[lean_lib]]
+name = "Check_Spec_A083831"
+
+[[lean_lib]]
+name = "Check_Spec_A083832"
+
+[[lean_lib]]
+name = "Check_Spec_A083833"
+
+[[lean_lib]]
+name = "Check_Spec_A083834"
+
+[[lean_lib]]
+name = "Check_Spec_A083835"
+
+[[lean_lib]]
+name = "Check_Spec_A083836"
+
+[[lean_lib]]
+name = "Check_Spec_A083837"
+
+[[lean_lib]]
+name = "Check_Spec_A083838"
+
+[[lean_lib]]
+name = "Check_AntiVacuite_A069881"
+
+[[lean_lib]]
+name = "Check_AntiVacuite_A083829"
+
+[[lean_lib]]
+name = "Check_AntiVacuite_A083830"
+
+[[lean_lib]]
+name = "Check_AntiVacuite_A083831"
+
+[[lean_lib]]
+name = "Check_AntiVacuite_A083832"
+
+[[lean_lib]]
+name = "Check_AntiVacuite_A083833"
+
+[[lean_lib]]
+name = "Check_AntiVacuite_A083834"
+
+[[lean_lib]]
+name = "Check_AntiVacuite_A083835"
+
+[[lean_lib]]
+name = "Check_AntiVacuite_A083836"
+
+[[lean_lib]]
+name = "Check_AntiVacuite_A083837"
+
+[[lean_lib]]
+name = "Check_d2plus_A069881"
+
+[[lean_lib]]
+name = "AxiomsReport_A083829"
+
+[[lean_lib]]
+name = "AxiomsReport_A083830"
+
+[[lean_lib]]
+name = "AxiomsReport_A083831"
+
+[[lean_lib]]
+name = "AxiomsReport_A083832"
+
+[[lean_lib]]
+name = "AxiomsReport_A083833"
+
+[[lean_lib]]
+name = "AxiomsReport_A083834"
+
+[[lean_lib]]
+name = "AxiomsReport_A083835"
+
+[[lean_lib]]
+name = "AxiomsReport_A083837"

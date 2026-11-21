@@ -1,0 +1,187 @@
+% sec-zeros.tex -- the certified zeros of A083837 and
+% A083838. Standalone fragment, \input by
+% A083833-UNIFIE-paper.tex.
+% Environments and notation inherited from sec-carry.tex; the
+% guards below are no-ops once defined there.
+\providecommand{\revW}{\mathrm{rev}}
+\makeatletter
+\@ifundefined{theorem}{\newtheorem{theorem}{Theorem}}{}
+\@ifundefined{lemma}{\newtheorem{lemma}[theorem]{Lemma}}{}
+\@ifundefined{corollary}{\newtheorem{corollary}[theorem]{Corollary}}{}
+\@ifundefined{remark}{\newtheorem{remark}[theorem]{Remark}}{}
+\makeatother
+
+\section{The certified zeros of A083837 and A083838}
+\label{sec:zeros}
+
+The last two entries of the family scan the multiplier.
+A083837~\cite{oeis} (Murthy and Srikanth, May 2003;
+corrected and extended by R.~Chandler) is quoted in
+Section~\ref{sec:intro}: $a(k)$ is the smallest
+palindrome $p$ such that $kp+1$ is palindromic, or $0$
+if none exists. Its $104$ displayed terms vanish at the
+$21$ indices
+\[
+ k \in Z = \{12,17,23,31,37,41,42,48,51,53,61,64,71,
+ 74,79,81,86,91,96,101,103\},
+\]
+where Chandler's comment reports only the absence of a
+palindrome below $10^{15}$. A displayed zero is thus
+finite evidence, not nonexistence; a later witness could
+refute it. This section upgrades each of the $21$ zeros
+to a universal theorem, by an obstruction on the two
+ends of the candidate palindrome.
+
+\paragraph{The prefix-suffix obstruction.}
+Let $p$ be an $m$-digit palindrome, $1 \le w \le m$, and
+let $P$ be its $w$-prefix (the integer formed by its
+first $w$ digits). Write $\revW_w(n)$ for the integer
+read from the last $w$ digits of $n$ in reverse order.
+Assume $q = kp+1$ is a palindrome of $m'$ digits. Then:
+\begin{itemize}
+\item the prefix bounds the value:
+$kP\,10^{m-w} \le q < k(P+1)\,10^{m-w}$;
+\item the last $w$ digits of $p$ form $\revW_w(P)$
+(palindromicity of $p$), i.e.\
+$p \equiv \revW_w(P) \pmod{10^w}$, so the last $w$
+digits of $q$ are those of $k\,\revW_w(P) + 1$; as $q$ is
+itself palindromic of length $m' \ge m \ge w$, its
+$w$-prefix is the reversal of its last $w$ digits:
+$L = \revW_w\bigl(k\,\revW_w(P) + 1\bigr)$. If
+$L < 10^{w-1}$ the last digit of $q$, hence its leading
+digit, would be $0$ -- impossible, so $L \ge 10^{w-1}$
+and $L\,10^{m'-w} \le q < (L+1)\,10^{m'-w}$;
+\item writing $s = m' - m \ge 0$, one has $s \le S$ for
+any $S$ with $k < 10^S$, since
+$q < k\,10^m + 1 \le 10^{m+S}$; crossing the two windows
+($L\,10^{m'-w} \le q < k(P+1)\,10^{m-w}$ and
+$kP\,10^{m-w} \le q < (L+1)\,10^{m'-w}$) and dividing by
+$10^{m-w}$ then forces
+\begin{equation}
+ L\,10^{s} \;\le\; k\,(P+1)
+ \qquad\text{and}\qquad
+ k\,P \;<\; (L+1)\,10^{s} .
+ \label{eq:overlap}
+\end{equation}
+\end{itemize}
+
+\begin{lemma}[border obstruction]
+\label{lem:border}
+If, for a candidate $w$-prefix $P$, either
+$L < 10^{w-1}$ (the required $w$-prefix of $q$ would
+start with $0$, i.e.\ $q$ would end in $0$) or no
+$s \in \{0,\dots,S\}$ satisfies \eqref{eq:overlap},
+then no $m$-digit palindrome $p$ with $w$-prefix $P$
+can have $kp+1$ palindromic. In particular, if every
+$w$-prefix $P \in \{10^{w-1},\dots,10^{w}-1\}$ is
+obstructed, no palindrome $p$ of length $\ge w$ has
+$kp+1$ palindromic.
+\end{lemma}
+
+The lemma prunes the prefix tree level by level: the
+survivors of depth $w$ seed the candidate $(w+1)$-prefixes
+$10P + d$ for $d \in \{0,\dots,9\}$. The residual cases
+$m < w$ are finite: an $m$-digit palindrome is its own
+$m$-prefix, so it must appear among the level-$m$
+survivors, be palindromic as a prefix, and pass the
+direct check on $kp+1$. Table~\ref{tab:zeros} gives the
+certificate tree for each of the $21$ indices: the depth
+$w$ at which the survivor list becomes empty, and the
+survivors $E_t$ at each shallower level.
+
+\begin{table}[ht]
+\centering
+\small
+{\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.4cm}|c|%
+>{\raggedright\arraybackslash}p{10.2cm}}
+\hline
+$k$ & depth & survivors \\
+\hline
+$12$, $31$, $37$, $41$, $42$, $51$, $53$, $61$, $64$,
+$71$, $81$, $86$, $91$, $96$ & $1$ & none: every leading
+digit $a_0 \in \{1,\dots,9\}$ is obstructed \\
+$17$ & $2$ & $E_1 = \{2\}$; $m = 1$: $17\cdot2+1 = 35$
+not palindromic; $E_2 = \varnothing$ \\
+$23$ & $2$ & $E_1 = \{1\}$; $m = 1$: $23\cdot1+1 = 24$
+not palindromic; $E_2 = \varnothing$ \\
+$74$ & $2$ & $E_1 = \{6,9\}$; $m = 1$: $445$, $667$
+not palindromic; $E_2 = \varnothing$ \\
+$101$ & $2$ & $E_1 = \{1,\dots,8\}$ ($S = 3$);
+$m = 1$ excluded case by case; $E_2 = \varnothing$ \\
+$103$ & $2$ & $E_1 = \{5\}$ ($S = 3$); $m = 1$:
+$516$ not palindromic; $E_2 = \varnothing$ \\
+$48$ & $3$ & $E_1 = \{1\}$; $m = 1$: $48\cdot1+1 = 49$
+not palindromic; $E_2 = \{19\}$; $m = 2$: candidate
+prefix $19$ not a palindrome ($9 \ne 1$);
+$E_3 = \varnothing$ over $\{190,\dots,199\}$ \\
+$79$ & $3$ & $E_1 = \{6\}$; $m = 1$: $79\cdot6+1 = 475$
+not palindromic; $E_2 = \{65\}$; $m = 2$: candidate
+prefix $65$ not a palindrome; $E_3 = \varnothing$
+over $\{650,\dots,659\}$ \\
+\hline
+\end{tabular}}
+\caption{Certificate trees of the $21$ certified zeros
+of A083837. $E_t$ is the list of $t$-prefixes escaping
+the obstruction at level $t$; $m < w$ cases are
+finished by direct products.}
+\label{tab:zeros}
+\end{table}
+
+\begin{theorem}[the $21$ zeros of A083837]
+\label{thm:zeros}
+For every $k \in Z$ there is no palindrome $p$ of any
+length such that $kp+1$ is a palindrome.
+\end{theorem}
+
+\begin{proof}
+For each $k$, the obstruction of
+Lemma~\ref{lem:border} is evaluated on the candidate
+prefixes level by level: at depth $1$ the list
+$E_1 = \varnothing$ for the fourteen indices of the
+first row of Table~\ref{tab:zeros}; at depth $2$ for
+$k \in \{17,23,74,101,103\}$ the level-$1$ survivors
+shown are excluded at length $m = 1$ by the displayed
+products and the next level is empty; at depth $3$ for
+$k \in \{48,79\}$ the chains shown close the tree.
+Every case is kernel-checked in \texttt{A083837.lean}
+(Table~\ref{tab:lean}).
+\end{proof}
+
+\begin{corollary}[the $21$ zeros of A083838]
+\label{cor:zeros838}
+For every $k \in Z$ there is no pair of palindromes
+$(p,q)$ with $q = kp+1$: the image entry A083838
+vanishes at the same indices.
+\end{corollary}
+
+The companion entry A083838 displays $66$ terms; its
+$12$ shown zeros, at indices $12$, $17$, $23$, $31$,
+$37$, $41$, $42$, $48$, $51$, $53$, $61$ and $64$, are
+exactly the displayed part of the certified set, while
+the remaining nine indices $71$, $74$, $79$, $81$,
+$86$, $91$, $96$, $101$ and $103$ lie beyond its
+displayed window and are settled here on the same
+footing.
+
+\begin{proof}
+Each corollary is the direct negation of the existence
+of a member pair, a one-line consequence of
+Theorem~\ref{thm:zeros}; the $21$ statements are
+kernel-checked in \texttt{A083838.lean}.
+\end{proof}
+
+\begin{remark}[scope of the certification]
+\label{rem:scopezeros}
+Theorem~\ref{thm:zeros} is a universal nonexistence
+statement: it rules out every palindrome of every
+length, where the displayed zero reported only
+$p < 10^{15}$. It says nothing about the nonzero
+displayed values of A083837 or A083838, which are not
+certified here; and it does not address multipliers
+$k > 104$, beyond the displayed range of the entry.
+Consistently, an independent enumeration found no
+witness palindrome below $10^{11}$ for any of the $21$
+indices -- agreement with the finite-search comment,
+though never used as evidence.
+\end{remark}

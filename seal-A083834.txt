@@ -1,0 +1,77 @@
+# SEAL-A083834 - seal of the A083834 theorems
+
+Date: 2026-11-15. Produced on an external Linux runner
+(Lean 4.35.0 toolchain, pinned below).
+
+## Sealed objects
+
+Two kernel-checked declarations, exported independently:
+
+1. `proven_A083834 : SpecA083834` (Check_Spec_A083834.lean),
+   the conjunction of the two public theorems:
+   - `A083834_C1` (= `A083834_alphabet`): every digit of
+     q = 5p+1 lies in {0,1,5,6};
+   - `A083834_C2` (= `A083834_repunit`): m' even =>
+     q = repunit.
+2. `A083834_starts6_odd` (A083834.lean): if the leading
+   digit dgt(5p+1)(m'-1) of q equals 6, then m' is odd.
+   This is the literal-reading corollary of C2 (an even-length
+   output would be all 1's, and 6 != 1).
+
+The serialized transitive closures cover the carry-chain
+development (module A083833.lean + spec + wrapper).
+
+## Production chain
+
+- Toolchain: Lean 4.35.0 (leanprover--lean4---v4.35.0),
+  mathlib rev 56a005855ea17e0b0958f73ec801ae140b0a1679.
+- Build: `lake build A083834 Spec_A083834
+  Check_Spec_A083834 Check_AntiVacuite_A083834`,
+  BUILD_EXIT=0.
+- Exports: `lake env leanexport <module> -- <decl>` ->
+  A083834_proven.ndjson (15 MiB) and
+  A083834_starts6_odd.ndjson (15 MiB), both EXPORT_EXIT=0.
+- #print axioms (build log): [propext, Classical.choice,
+  Quot.sound] on A083834_alphabet and proven_A083834.
+
+## Independent re-verification (3 kernels, strict whitelist)
+
+nanoda config: permitted_axioms = [propext, Classical.choice,
+Quot.sound], unpermitted_axiom_hard_error = true.
+
+| export | nanoda_bin | con-leche | con-ron |
+|---|---|---|---|
+| A083834_proven | exit 0, 4276 decls checked* | 3751 decls, exit 0 | 3751 decls, exit 0 |
+| A083834_starts6_odd | exit 0, 4248 decls checked* | 3723 decls, exit 0 | 3723 decls, exit 0 |
+
+*nanoda reports "Unable to print axioms" (unsupported
+print_axioms option); this is a pretty-printer warning,
+not a check failure. Its declaration count includes the
+full environment prefix and differs from con-leche/con-ron
+by counting convention only.
+
+## Artifacts
+
+- `A083834-seal-exports.tar.zst` (dossier root), USTAR
+  uid/gid 0, members:
+  - A083834_proven.ndjson, A083834_starts6_odd.ndjson;
+  - the short human-readable sources so a reviewer can read
+    the specification without parsing NDJSON:
+    Spec_A083834.lean, Check_Spec_A083834.lean,
+    Check_AntiVacuite_A083834.lean, AxiomsReport_A083834.lean.
+- `MANIFEST-exports.sha256`: SHA-256 of every archive member.
+- `MANIFEST-tools.sha256`: hashes of the toolchain binaries.
+- `nanoda-proven.log`, `nanoda-starts6_odd.log`: nanoda logs.
+- `replay_seal.sh`: full local replay (extract, hash check,
+  trio re-verification, statement recall).
+
+## Limits
+
+- The seal covers the two declarations above; the two public
+  theorems A083834_alphabet / A083834_repunit are direct
+  projections / wrapper of the first.
+- Single production run; tool hashes pin the exact binaries
+  (toolchain v4.35.0).
+- The statement A083834_starts6_odd assumes m' >= 1
+  (nonempty output), matching the intended domain
+  p >= 1 (0 is not a member of A083833).

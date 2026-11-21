@@ -1,0 +1,106 @@
+% sec-A083833.tex -- k = 5 section of the unified kp+1
+% paper. Standalone fragment, \input by
+% A083833-UNIFIE-paper.tex.
+% Environments and notation inherited from sec-carry.tex; the
+% guards below are no-ops once defined there.
+\providecommand{\IsPal}{\mathrm{IsPal}}
+\makeatletter
+\@ifundefined{theorem}{\newtheorem{theorem}{Theorem}}{}
+\@ifundefined{corollary}{\newtheorem{corollary}[theorem]{Corollary}}{}
+\@ifundefined{remark}{\newtheorem{remark}[theorem]{Remark}}{}
+\makeatother
+
+\section{Multiplier $k = 5$: A083833 and its image A083834}
+\label{sec:k5}
+
+OEIS A083833~\cite{oeis} (Murthy and Srikanth, 2003)
+lists the palindromes $p$ such that $q = 5p+1$ is again
+a palindrome; A083834 is the image sequence of the
+values $q$. On A083833, Michael S.~Branicky recorded
+(June 13, 2021, tagged ``(Conjectures)''): ``All terms
+contain only the digits $\{0,1,2,3\}$'' and ``For $d$
+even, the only term with $d$ digits is $2^d$;
+equivalently, all terms starting with $1$ have odd
+length'' (in the entry's notation the caret $2^d$
+denotes the $d$-fold concatenated repdigit $22\ldots2$).
+On the image entry A083834 he recorded the analogous
+pair, the alphabet $\{0,1,5,6\}$ and a repunit family;
+that verbatim contains a parity slip discussed in
+Remark~\ref{rem:parity-slip}.
+
+\begin{theorem}[Branicky C1: alphabet of $p$]
+\label{thm:k5-c1}
+For all naturals $p, m, m'$ with $\IsPal(p,m)$,
+$\IsPal(5p+1,m')$ and $m \ge 1$, every digit of $p$
+satisfies $a_j \le 3$ for all $j < m$.
+\end{theorem}
+
+\begin{theorem}[Branicky C2: even length, full form]
+\label{thm:k5-c2}
+Let $m \ge 1$ be even and $\IsPal(p,m)$. Then $5p+1$ is
+a palindrome if and only if $a_j = 2$ for all $j < m$:
+the even-length members are exactly the repdigits
+$p = 22\ldots2$.
+\end{theorem}
+
+A term starting with $1$ is not the repdigit, so by
+Theorem~\ref{thm:k5-c2} it cannot have even length:
+this is Branicky's ``equivalently'' clause, a
+paper-side corollary of C2 rather than a separate
+kernel declaration.
+
+\begin{proof}[Proof of
+Theorems~\ref{thm:k5-c1}--\ref{thm:k5-c2} and
+Corollary~\ref{cor:k5-image}]
+The shared carry-chain device (Section~\ref{sec:carry})
+instantiates as follows. The carry into position $j$ is
+$c_j = \bigl\lfloor\bigl(5\,(p \bmod 10^j)+1\bigr)
+/10^j\bigr\rfloor$, bounded by $4$, with $c_0 = 1$; the
+output length satisfies $m' \in \{m, m+1\}$. If
+$m' = m$, Lemma~\ref{lem:same} forces $m$ odd,
+$a_0 = 1$, $c_1 = 0$, and the alternating classes
+$a_j \in \{0,1\}$ at even $j$, $a_j \in \{2,3\}$ at odd
+$j$. If $m' = m+1$, the swap-freeness collapses the
+chain to the constant $1$ (Scheme II of
+Lemma~\ref{lem:overflow}); the boundary equations give
+$a_0 = 2$, and the parity propagation
+$a_j \equiv a_{j-1} \pmod 2$ pins every digit to $2$:
+$p = 22\ldots2$ and $q = 11\ldots1$ is a repunit.
+Reading $b_j = (5a_j + c_j) \bmod 10$ off the two
+branches gives the image alphabet $\{1,6\}$ at even $j$,
+$\{0,5\}$ at odd $j$, and the repunit $1\ldots1$ at
+overflow.
+Theorem~\ref{thm:k5-c1} is the union of the two digit
+classes; if $m$ is even the same-length alternative is
+excluded, which is the forward direction of
+Theorem~\ref{thm:k5-c2}; the converse direction is the
+certified identity
+$5\cdot 2R_m + 1 = R_{m+1}$ packaged as a literal iff
+(Table~\ref{tab:lean}). The $29$ listed terms fit:
+their even-length members are exactly $22$, $2222$,
+$222222$, $22222222$.
+\end{proof}
+
+\begin{remark}[parity slip in the A083834 verbatim]
+\label{rem:parity-slip}
+On A083834 the comment reads ``For $d$ \emph{odd}, the
+only term with $d$ digits is $1^d$; equivalently, all
+terms starting with $6$ have odd length''. The ``$d$
+odd'' is a slip: the listed odd-length terms $606$ and
+$656$ are not repunits, so the literal reading is
+refuted by the entry's own data, whereas the
+``equivalently'' clause is unambiguous. The corrected
+statement is that even-length terms are repunits, and
+that is the statement the kernel proves. On A083833
+the analogous comment had been recorded correctly with
+``$d$ even''.
+\end{remark}
+
+\begin{corollary}[image alphabet: A083834]
+\label{cor:k5-image}
+Under the same hypotheses, every digit of $q = 5p+1$
+lies in $\{0,1,5,6\}$; if $m'$ is even then every digit
+of $q$ equals $1$, i.e.\ $q$ is the repunit
+$11\ldots1$; and a term of A083834 starting with $6$
+has odd length.
+\end{corollary}

@@ -1,0 +1,88 @@
+% sec-A083831.tex -- k = 4 section of the unified kp+1
+% paper. Standalone fragment, \input by
+% A083833-UNIFIE-paper.tex.
+% Environments and notation inherited from sec-carry.tex; the
+% guards below are no-ops once defined there.
+\providecommand{\IsPal}{\mathrm{IsPal}}
+\makeatletter
+\@ifundefined{theorem}{\newtheorem{theorem}{Theorem}}{}
+\@ifundefined{corollary}{\newtheorem{corollary}[theorem]{Corollary}}{}
+\makeatother
+
+\section{Multiplier $k = 4$: A083831 and its image A083832}
+\label{sec:k4}
+
+Entry A083831~\cite{oeis} (A.~Murthy and M.~Srikanth,
+May 2003; corrected and extended by R.~Zumkeller and
+R.~Chandler) lists the palindromes $p$ such that
+$q = 4p+1$ is again a palindrome:
+$1, 2, 8, 88, 131, 141, 232, 242, 888, 8888, \ldots$
+Commenting on the entry (April 4, 2018), Robert Israel
+recorded the conjecture quoted in
+Section~\ref{sec:intro}. We settle it for every length,
+in both directions, together with the digit-alphabet
+bound on $p$ and, as a corollary of the same carry
+analysis, the alphabet of the companion sequence.
+
+\begin{theorem}[Israel's conjecture on A083831, full form]
+\label{thm:k4-even}
+Let $m \ge 1$ be even and $\IsPal(p,m)$. Then $4p+1$ is
+a palindrome if and only if $a_j = 8$ for every
+$j < m$: the even-length members of A083831 are exactly
+the repdigits $\underbrace{88\ldots8}_{m}$.
+\end{theorem}
+
+\begin{theorem}[digit alphabet of the source]
+\label{thm:k4-dig}
+Under the same hypotheses (any $m \ge 1$), every digit
+of $p$ satisfies $a_j \le 4$ or $a_j = 8$.
+\end{theorem}
+
+\begin{corollary}[alphabet of the image, OEIS A083832]
+\label{cor:k4-alphabet}
+Every digit of $q = 4p+1$ lies in $\{1,2,3,5,6,9\}$.
+\end{corollary}
+
+\begin{proof}
+Instantiating the shared carry chain at $k = 4$ gives
+$c_j = \bigl\lfloor\bigl(4(p \bmod 10^j) +
+1\bigr)/10^j\bigr\rfloor$, with $c_0 = 1$ and
+$c_j \le 3$.
+\begin{itemize}
+\item \emph{Same length} ($m' = m$):
+Lemma~\ref{lem:same} forces $m$ odd,
+$a_0 \in \{1,2\}$, $a_j \in \{0,1,2\}$ at even positions
+and $a_j \in \{3,4\}$ at odd positions. Output digits:
+$4a_j + 1 \in \{1,5,9\}$ at even $j$ and
+$4a_j \in \{12,16\}$ at odd $j$, i.e.\ digits
+$\{2,6\}$.
+\item \emph{Overflow} ($m' = m+1$). Since
+$4a \bmod 10$ does not separate the carry, the direct
+mirror law of the $k = 5$ case is unavailable; the
+induction runs on the mirrored couple \emph{(A)}+\emph{(B)}
+of Lemma~\ref{lem:overflow}, whose single fixed point is
+$(a_{j+1}, c_{j+2}) = (8, 3)$: the chain is rigid in one
+step. The head equation has the single solution
+$a_0 = 8$ (checked digit by digit, the $m = 1$ boundary
+$33 \bmod 10 = 3 = \lfloor 33/10 \rfloor$ included), so
+$c_1 = 3$; propagating the fixed point, every digit is
+$8$ and the carries freeze at $c_j = 3$:
+$p = 88\ldots8$ and $q = 35\ldots53$ ($q = 33$ for
+$m = 1$), digits in $\{3,5\}$.
+\end{itemize}
+For $m$ even the same-length case is impossible, so the
+overflow case applies and the forward direction of
+Theorem~\ref{thm:k4-even} follows; the converse
+direction is the certified repdigit membership
+(Table~\ref{tab:lean}). The union of the two digit
+classes gives Theorem~\ref{thm:k4-dig}, and reading
+$b_j$ in both cases gives
+$\{1,2,5,6,9\} \cup \{3,5\} = \{1,2,3,5,6,9\}$,
+Corollary~\ref{cor:k4-alphabet}.
+\end{proof}
+
+The published terms agree: the even-length members are
+exactly $88$, $8888$, $888888$; the image family
+$33, 353, 3553, 35553, \ldots$ is the overflow branch
+and $525, 565, 929, 969, 52125, \ldots$ the same-length
+one.

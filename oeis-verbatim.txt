@@ -1,0 +1,241 @@
+=== A069881 ===
+%I A069881 #12 Jan 22 2018 03:59:30
+%S A069881 1,2,3,4,5,55,151,161,171,181,191,252,262,272,282,292,353,363,373,383,
+%T A069881 393,454,464,474,484,494,555,5555,15051,15151,15251,15351,15451,16061,
+%U A069881 16161,16261,16361,16461,17071,17171,17271,17371,17471,18081,18181
+%N A069881 Numbers n such that n and 2n+1 are both palindromes.
+%C A069881 Note that any number with all digits = 5 (A002279) is part of this sequence. - Jim McCann (jmccann(AT)umich.edu), Jul 16 2002
+%H A069881 Ivan Neretin, <a href="/A069881/b069881.txt">Table of n, a(n) for n = 1..15636</a> (all terms up to 10^12)
+%e A069881 151 is a member as 2*151 + 1 = 303 is also a palindrome.
+%t A069881 isPalin[n_]:=(n==FromDigits[Reverse[IntegerDigits[n]]]); Do[m = 2 n + 1; If[isPalin[n]&&isPalin[m], Print[n]], {n, 1, 10^5}] (* _Vincenzo Librandi_, Jan 22 2018 *)
+%o A069881 (Perl) $a = 1; while((@b = split("|",$a) and @c = split("|",2*$a+1) and (join("", reverse(@b)) eq join("", @b) and join("", reverse(@c)) eq join("", @c) and eval("print \"\$a \"; return 0;"))) or ++$a) { }
+%o A069881 (PARI) isok(n) = (d=digits(n)) && (Vecrev(d)==d) && (dd=digits(2*n+1)) && (Vecrev(dd)==dd); \\ _Michel Marcus_, Jan 22 2018
+%Y A069881 Subsequence of A002113.
+%K A069881 nonn,base
+%O A069881 1,2
+%A A069881 _Amarnath Murthy_, Apr 30 2002
+%E A069881 More terms from Jim McCann (jmccann(AT)umich.edu), Jul 16 2002
+
+=== A083829 ===
+%I A083829 #21 Oct 27 2026 21:14:49
+%S A083829 1,2,7,77,141,151,161,242,252,262,777,7777,14041,14141,14241,15051,
+%T A083829 15151,15251,16061,16161,16261,24042,24142,24242,25052,25152,25252,
+%U A083829 26062,26162,26262,77777,777777,1404041,1405041,1406041,1414141,1415141
+%N A083829 Palindromes k such that 3k + 1 is also a palindrome.
+%C A083829 From _Robert Israel_, Feb 23 2023: (Start)
+%C A083829 Includes A002281. It appears that the only terms with an even number of digits are in A002281. All other terms of more than 1 digit start with 14, 15, 16, 24, 25 or 26. It also appears that no terms contain the digits 3, 8 or 9, and the only ones that contain 7 are A002281. (End)
+%H A083829 Robert Israel, <a href="/A083829/b083829.txt">Table of n, a(n) for n = 1..6576</a>
+%p A083829 ispali:= proc(n) local L;
+%p A083829   L:= convert(n,base,10);
+%p A083829   L = ListTools:-Reverse(L)
+%p A083829 end proc:
+%p A083829 revdigs:= proc(n) local L,i;
+%p A083829   L:= convert(n,base,10);
+%p A083829   add(L[-i]*10^(i-1),i=1..nops(L))
+%p A083829 end proc:
+%p A083829 palis:= proc(d) local r;
+%p A083829   if d::even then [seq](revdigs(r)+10^(d/2)*r,r=10^(d/2-1)..10^(d/2)-1)
+%p A083829   else [seq](revdigs(floor(r/10))+10^((d-1)/2)*r, r=10^((d-1)/2)..10^((d+1)/2)-1)
+%p A083829   fi
+%p A083829 end proc:
+%p A083829 [seq(op(select(t -> ispali(3*t+1), palis(d))),d=1..7)]; # _Robert Israel_, Feb 23 2023
+%t A083829 Select[Range[15*10^5],AllTrue[{#,3#+1},PalindromeQ]&] (* Requires Mathematica version 10 or later *) (* _Harvey P. Dale_, Feb 14 2018 *)
+%Y A083829 Cf. A083830.
+%K A083829 base,nonn,changed
+%O A083829 1,2
+%A A083829 _Amarnath Murthy_ and Meenakshi Srikanth (menakan_s(AT)yahoo.com), May 09 2003
+%E A083829 Corrected and extended by _Ray Chandler_, May 21 2003
+
+=== A083830 ===
+%I A083830 #9 Jul 20 2020 11:48:05
+%S A083830 4,7,22,232,424,454,484,727,757,787,2332,23332,42124,42424,42724,
+%T A083830 45154,45454,45754,48184,48484,48784,72127,72427,72727,75157,75457,
+%U A083830 75757,78187,78487,78787,233332,2333332,4212124,4215124,4218124,4242424
+%N A083830 Palindromes of the form 3n + 1 where n is also a palindrome: palindromes arising in A083829.
+%t A083830 Select[3#+1&/@Select[Range[15*10^5],PalindromeQ],PalindromeQ] (* Requires Mathematica version 10 or later *) (* _Harvey P. Dale_, Jul 20 2020 *)
+%Y A083830 Cf. A083829.
+%K A083830 base,nonn
+%O A083830 1,1
+%A A083830 _Amarnath Murthy_ and Meenakshi Srikanth (menakan_s(AT)yahoo.com), May 09 2003
+%E A083830 Corrected and extended by _Ray Chandler_, May 21 2003
+
+=== A083831 ===
+%I A083831 #21 Apr 04 2018 10:06:34
+%S A083831 1,2,8,88,131,141,232,242,888,8888,13031,13131,13231,14041,14141,
+%T A083831 14241,23032,23132,23232,24042,24142,24242,88888,888888,1303031,
+%U A083831 1304031,1313131,1314131,1323231,1324231,1403041,1404041,1413141,1414141
+%N A083831 Palindromes n such that 4n + 1 is also a palindrome.
+%C A083831 Among infinite subsequences are the repdigits 8...8 = 8*(10^k-1)/9.  It appears that the only terms with an even number of digits are these for even k. - _Robert Israel_, Apr 04 2018
+%H A083831 Robert Israel, <a href="/A083831/b083831.txt">Table of n, a(n) for n = 1..1000</a>
+%e A083831 13231 and 52925 are palindromes and 4*13231+1=52925, therefore 13231 is a term.
+%p A083831 N:= 100: # to get the first N terms
+%p A083831 fe:= proc(x,d) local L;
+%p A083831    L:= convert(x,base,10);
+%p A083831    add(L[j]*(10^(d-j)+10^(d+j-1)),j=1..d)
+%p A083831 end proc:
+%p A083831 fo:= proc(x,d) local L;
+%p A083831   L:= convert(x,base,10);
+%p A083831   add(L[j]*(10^(d-j)+10^(d+j-2)),j=2..d) + L[1]*10^(d-1);
+%p A083831 end proc:
+%p A083831 ispali:= proc(n) local L;
+%p A083831    L:= convert(n,base,10);
+%p A083831    L = ListTools:-Reverse(L)
+%p A083831 end proc:
+%p A083831 count:= 0: Res:= NULL:
+%p A083831 for d from 1 while count < N do
+%p A083831   for x from 10^(d-1) to 10^d-1 while count < N do
+%p A083831     y:= fo(x,d);
+%p A083831   if ispali(4*y+1) then
+%p A083831      count:= count+1; Res:= Res, y;
+%p A083831   fi
+%p A083831 od:
+%p A083831 for x from 10^(d-1) to 10^d-1 while count < N do
+%p A083831     y:= fe(x,d);
+%p A083831   if ispali(4*y+1) then
+%p A083831      count:= count+1; Res:= Res, y;
+%p A083831   fi
+%p A083831 od:
+%p A083831 od:
+%p A083831 Res; # _Robert Israel_, Apr 04 2018
+%t A083831 Select[Range[15*10^5],AllTrue[{#,4#+1},PalindromeQ]&] (* Requires Mathematica version 10 or later *) (* _Harvey P. Dale_, Mar 08 2018 *)
+%o A083831 (PARI) isok(n) = my(dn = digits(n), dm = digits(4*n+1)); (Vecrev(dn) == dn) && (Vecrev(dm) == dm); \\ _Michel Marcus_, Apr 04 2018
+%Y A083831 Cf. A083829, A083830, A083832.
+%K A083831 base,nonn
+%O A083831 1,2
+%A A083831 _Amarnath Murthy_ and Meenakshi Srikanth (menakan_s(AT)yahoo.com), May 09 2003
+%E A083831 Corrected and extended by _Reinhard Zumkeller_ and _Ray Chandler_, May 18 2003
+
+=== A083832 ===
+%I A083832 #10 Apr 06 2017 12:07:15
+%S A083832 5,9,33,353,525,565,929,969,3553,35553,52125,52525,52925,56165,56565,
+%T A083832 56965,92129,92529,92929,96169,96569,96969,355553,3555553,5212125,
+%U A083832 5216125,5252525,5256525,5292925,5296925,5612165,5616165,5652565
+%N A083832 Palindromes of the form 4n + 1 where n is also a palindrome. Palindromes arising in A083831.
+%t A083832 4#+1&/@Select[Range[1500000],AllTrue[{#,4#+1},PalindromeQ]&] (* Requires Mathematica version 10 or later *) (* _Harvey P. Dale_, Apr 06 2017 *)
+%Y A083832 Cf. A083829, A083830, A083831.
+%K A083832 base,nonn
+%O A083832 1,1
+%A A083832 _Amarnath Murthy_ and Meenakshi Srikanth (menakan_s(AT)yahoo.com), May 09 2003
+%E A083832 Corrected and extended by _Ray Chandler_, May 21 2003
+
+=== A083833 ===
+%I A083833 #19 Dec 17 2024 17:13:39
+%S A083833 1,2,22,121,131,222,2222,12021,12121,13031,13131,22222,222222,1202021,
+%T A083833 1203021,1212121,1213121,1302031,1303031,1312131,1313131,2222222,
+%U A083833 22222222,120202021,120212021,120303021,120313021,121202121,121212121
+%N A083833 Palindromes p such that 5p + 1 is also a palindrome.
+%C A083833 From _Michael S. Branicky_, Jun 13 2021: (Start)
+%C A083833 All terms start and end with the digit 1, except those consisting of d 2's, which lead to palindromes of d+1 1's.
+%C A083833 If a(n) > 1 starts with 1, then its second and second-to-last digits are either both 2 or both 3; and if it has 5 or more digits, its third and third-to-last digits are either both 0 or both 1; thus, terms in the latter case only start with 120, 121, 130, 131, and 222.
+%C A083833 Using ^ to denote repeated concatenation, contains terms of the forms 2^d, leading to palindromes of the form 1^(d+1); (12)^d 1, leading to (60)^d 6; and (13)^d 1, leading to (65)^d 6; among other patterns.
+%C A083833 (Conjectures)
+%C A083833 All terms contain only the digits {0, 1, 2, 3}.
+%C A083833 For d even, the only term with d digits is 2^d; equivalently, all terms starting with 1 have odd length. (End)
+%H A083833 Michael S. Branicky, <a href="/A083833/b083833.txt">Table of n, a(n) for n = 1..8217</a> (all terms where p has <= 26 digits)
+%t A083833 Select[Range[23*10^5],AllTrue[{#,5#+1},PalindromeQ]&] (* The program generates the first 22 terms of the sequence. *) (* _Harvey P. Dale_, Dec 17 2024 *)
+%o A083833 (Python)
+%o A083833 from itertools import product
+%o A083833 def ispal(n): s = str(n); return s == s[::-1]
+%o A083833 def pals(d, base=10): # all positive d-digit palindromes
+%o A083833     digits = "".join(str(i) for i in range(base))
+%o A083833     for p in product(digits, repeat=d//2):
+%o A083833         if d > 1 and p[0] == "0": continue
+%o A083833         left = "".join(p); right = left[::-1]
+%o A083833         for mid in [[""], digits][d%2]:
+%o A083833             t = int(left + mid + right)
+%o A083833             if t > 0: yield t
+%o A083833 def ok(pal): return ispal(5*pal+1)
+%o A083833 print([p for d in range(1, 10) for p in pals(d) if ok(p)]) # _Michael S. Branicky_, Jun 11 2021
+%Y A083833 Cf. A083829, A083830, A083832, A083834.
+%K A083833 base,nonn
+%O A083833 1,2
+%A A083833 _Amarnath Murthy_ and Meenakshi Srikanth (menakan_s(AT)yahoo.com), May 09 2003
+%E A083833 Corrected and extended by _Ray Chandler_, May 21 2003
+
+=== A083834 ===
+%I A083834 #21 Jun 14 2021 04:15:46
+%S A083834 6,11,111,606,656,1111,11111,60106,60606,65156,65656,111111,1111111,
+%T A083834 6010106,6015106,6060606,6065606,6510156,6515156,6560656,6565656,
+%U A083834 11111111,111111111,601010106,601060106,601515106,601565106,606010606
+%N A083834 Palindromes of the form 5p + 1 where p is also a palindrome. Palindromes arising in A083833.
+%C A083834 From _Michael S. Branicky_, Jun 13 2021: (Start)
+%C A083834 All terms start and end with the digit 6, except those consisting of d+1 1's, which arise from palindromes of d 2's.
+%C A083834 If a(n) > 6 starts with a 6, then its second and second-to-last digits are either both 0 or both 5; and if it has 5 or more digits, its third and third-to-last digits are either both 1 or both 6; thus, terms in the latter case only start with 111, 601, 606, 651, 656.
+%C A083834 Using ^ to denote repeated concatenation, contains terms of the forms 1^(d+1), arising from palindromes of the form 2^d; (60)^d 6, arising from (12)^d 1; and (65)^d 6, arising from (13)^d 1; among other patterns.
+%C A083834 (Conjectures)
+%C A083834 All terms contain only the digits {0, 1, 5, 6}.
+%C A083834 For d odd, the only term with d digits is 1^d; equivalently, all terms starting with 6 have odd length. (End)
+%H A083834 Michael S. Branicky, <a href="/A083834/b083834.txt">Table of n, a(n) for n = 1..8217</a> (all terms where p has <= 26 digits)
+%t A083834 Select[5Select[Range@100000,PalindromeQ]+1,PalindromeQ] (* _Giorgos Kalogeropoulos_, Jun 11 2021 *)
+%o A083834 (Python)
+%o A083834 from itertools import product
+%o A083834 def ispal(n): s = str(n); return s == s[::-1]
+%o A083834 def pals(d, base=10): # all positive d-digit palindromes
+%o A083834     digits = "".join(str(i) for i in range(base))
+%o A083834     for p in product(digits, repeat=d//2):
+%o A083834         if d > 1 and p[0] == "0": continue
+%o A083834         left = "".join(p); right = left[::-1]
+%o A083834         for mid in [[""], digits][d%2]:
+%o A083834             t = int(left + mid + right)
+%o A083834             if t > 0: yield t
+%o A083834 def ok(pal): return ispal(5*pal+1)
+%o A083834 print([5*p+1 for d in range(1, 10) for p in pals(d) if ok(p)]) # _Michael S. Branicky_, Jun 11 2021
+%o A083834 (PARI) is(n) = my(x=(n-1)/5, dn=digits(n), dx); if(x!=ceil(x), return(0)); dx=digits(x); dn==Vecrev(dn) && dx==Vecrev(dx) && n>1 \\ _Felix Fröhlich_, Jun 11 2021
+%Y A083834 Cf. A083829, A083830, A083832, A083833.
+%K A083834 base,nonn
+%O A083834 1,1
+%A A083834 _Amarnath Murthy_ and Meenakshi Srikanth (menakan_s(AT)yahoo.com), May 09 2003
+%E A083834 Corrected and extended by _Ray Chandler_, May 21 2003
+
+=== A083835 ===
+%I A083835 #8 Aug 23 2014 13:39:07
+%S A083835 1,9,99,121,131,999,9999,12021,12121,13031,13131,99999,999999,1202021,
+%T A083835 1203021,1212121,1213121,1302031,1303031,1312131,1313131,9999999,
+%U A083835 99999999,120202021,120212021,120303021,120313021,121202121,121212121
+%N A083835 Palindromes n such that 6n + 1 is also a palindrome.
+%Y A083835 Cf. A083829, A083830, A083832, A083834, A083836.
+%K A083835 base,nonn
+%O A083835 1,2
+%A A083835 _Amarnath Murthy_ and Meenakshi Srikanth (menakan_s(AT)yahoo.com), May 09 2003
+%E A083835 Corrected and extended by _Ray Chandler_, May 21 2003
+
+=== A083836 ===
+%I A083836 #10 Jun 15 2018 18:56:38
+%S A083836 7,55,595,727,787,5995,59995,72127,72727,78187,78787,599995,5999995,
+%T A083836 7212127,7218127,7272727,7278727,7812187,7818187,7872787,7878787,
+%U A083836 59999995,599999995,721212127,721272127,721818127,721878127,727212727
+%N A083836 Palindromes of the form 6n + 1 where n is also a palindrome. palindromes arising in A083835.
+%t A083836 6#+1&/@Select[Range[12121*10^4],AllTrue[{#,6#+1},PalindromeQ]&] (* Requires Mathematica version 10 or later *) (* _Harvey P. Dale_, Jun 15 2018 *)
+%Y A083836 Cf. A083829, A083830, A083832, A083834, A083835.
+%K A083836 base,nonn
+%O A083836 1,1
+%A A083836 _Amarnath Murthy_ and Meenakshi Srikanth (menakan_s(AT)yahoo.com), May 09 2003
+%E A083836 More terms from _Ray Chandler_, May 21 2003
+
+=== A083837 ===
+%I A083837 #7 Aug 25 2014 12:11:22
+%S A083837 1,1,1,1,1,1,1,1,6,1,55,0,5,7,8,2,0,3,4,5,1,5,0,5,4,5,2,5,3,4,0,1,7,5,
+%T A083837 4,5,0,2,8,3,0,0,1,8,4,7,9,0,2,2,0,6,0,1,2,7,6,161,7,2,0,6,8,0,1,9,3,
+%U A083837 8,7,2,0,7,8,0,2,1,3,4,0,2,0,7,4,6,2,0,1,4,6,2,0,8,4,6,2,0,3,1,6,1,0,9,0,3
+%N A083837 Smallest palindrome n such that kn + 1 is a palindrome, or 0 if no such number exists.
+%C A083837 0 in sequence indicates no palindrome < 10^15 - _Ray Chandler_, Jul 13 2003
+%e A083837 a(3) = 1: 3*1 + 1 = 4; a(11) = 55, 55*11+1=606.
+%Y A083837 Cf. A083829, A083830, A083832, A083834, A083835, A083838.
+%K A083837 base,nonn
+%O A083837 1,9
+%A A083837 _Amarnath Murthy_ and Meenakshi Srikanth (menakan_s(AT)yahoo.com), May 09 2003
+%E A083837 Corrected and extended by _Ray Chandler_, May 22 2003
+
+=== A083838 ===
+%I A083838 #7 Aug 25 2014 12:11:44
+%S A083838 2,3,4,5,6,7,8,9,55,11,606,0,66,99,121,33,0,55,77,101,22,111,0,121,
+%T A083838 101,131,55,141,88,121,0,33,232,171,141,181,0,77,313,121,0,0,44,353,
+%U A083838 181,323,424,0,99,101,0,313,0,55,111,393,343,9339,414,121,0,373,505,0,66,595
+%N A083838 Smallest palindrome of the form nk+1 where k is also a palindrome:, or 0 if no such number exists; palindromes arising in A083837.
+%C A083838 0 in sequence indicates no palindrome < 10^15 - _Ray Chandler_, Jul 13 2003
+%e A083838 a(9)=6*9+1=55, a(11)=55*11+1=606.
+%Y A083838 Cf. A083829, A083830, A083832, A083834, A083835, A083837.
+%K A083838 base,nonn
+%O A083838 1,1
+%A A083838 _Amarnath Murthy_ and Meenakshi Srikanth (menakan_s(AT)yahoo.com), May 09 2003
+%E A083838 Corrected and extended by _Ray Chandler_, May 22 2003

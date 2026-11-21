@@ -1,0 +1,516 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{xurl}
+\emergencystretch=3em
+% Theorem environments are declared inside
+% sec-carry.tex (first \input below); the
+% section fragments guard their own declarations with
+% \@ifundefined and also compile standalone.
+% NOTE (deposit copy): the source tree keeps the section
+% fragments under sections/; in this flat archive they sit
+% next to this master file and the \input lines below were
+% adjusted accordingly (sections/sec-X -> sec-X).
+
+\title{Palindromes $p$ with $kp+1$ palindromic:
+carry-chain classifications for $2 \le k \le 6$ and
+certified zeros of OEIS A083837}
+\author{Fr\'ed\'eric Gaudin\thanks{Universit\'e de Caen
+Normandie (UNICAEN), Caen, France. Email:
+\texttt{frederic.gaudin@unicaen.fr}}%
+\thanks{2020 Mathematics Subject Classification: 11A63,
+11B83, 11Y99.}%
+\thanks{Keywords: palindrome, decimal digits, carry
+propagation, repdigit, repunit, OEIS A069881, A083829,
+A083830, A083831, A083832, A083833, A083834, A083835,
+A083836, A083837, A083838, formal verification, Lean.}}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+For $k \in \{2,3,4,5,6\}$ let $S_k$ be the set of decimal
+palindromes $p$ such that $kp+1$ is again a palindrome:
+OEIS A069881 ($k=2$, Tangente problem 8154), A083829
+($k=3$), A083831 ($k=4$), A083833 ($k=5$) and A083835
+($k=6$), with the image sequences A083830, A083832,
+A083834 and A083836. Every published conjecture on these
+entries -- the \emph{Tangente} problem and the recorded
+observations of R.~Israel and M.~S.~Branicky -- is proved
+here and certified in the Lean~4
+kernel: the even-length members are exactly the repdigits
+($55\ldots5$, $77\ldots7$, $88\ldots8$, $22\ldots2$,
+$99\ldots9$ respectively), each an iff in both
+directions, the digit alphabets are the published bounds,
+and the $k=6$ entry is settled by a complete
+classification. The same carry-chain device -- a chain
+folded back onto itself by palindromicity, $2$-periodic
+at constant length and frozen by any overflow -- yields,
+at the other end of the family, the twenty-one displayed
+zeros of A083837: each is upgraded from Chandler's 2003
+finite-search bound ($< 10^{15}$) to a universal
+nonexistence theorem by a prefix-suffix obstruction, with
+the twenty-one zeros of A083838. All results rest on the
+three standard axioms; no {\ttfamily native\_decide} is
+used.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+For a positive integer $k$, write $S_k$ for the set of
+decimal palindromes $p$ such that $q = kp+1$ is again a
+palindrome. The On-Line Encyclopedia of Integer
+Sequences~\cite{oeis} holds one entry per multiplier
+$k = 2, \dots, 6$ together with, for $k \ge 3$, the image
+entry listing the values $q$; all six source entries were
+contributed by A.~Murthy and M.~Srikanth in May 2003
+(A069881: Murthy, April 2002) and completed by
+R.~Chandler the same month. The definitions read
+verbatim:
+\begin{quote}
+A069881: ``Numbers $n$ such that $n$ and $2n+1$ are both
+palindromes.''\\
+A083829: ``Palindromes $k$ such that $3k + 1$ is also a
+palindrome.''\\
+A083831: ``Palindromes $n$ such that $4n + 1$ is also a
+palindrome.''\\
+A083833: ``Palindromes $p$ such that $5p + 1$ is also a
+palindrome.''\\
+A083835: ``Palindromes $n$ such that $6n + 1$ is also a
+palindrome.''
+\end{quote}
+The image entries A083830, A083832, A083834 and A083836
+list the ``palindromes arising in'' A083829, A083831,
+A083833 and A083835 respectively. Two further entries
+scan the family over the multiplier:
+\begin{quote}
+A083837: ``Smallest palindrome $n$ such that $kn + 1$
+is a palindrome, or $0$ if no such number exists.''\\
+A083838: ``Smallest palindrome of the form $nk+1$ where
+$k$ is also a palindrome:, or $0$ if no such number
+exists; palindromes arising in A083837.''
+\end{quote}
+(the trailing colon in the A083838 definition is the
+entry's own). On A083837 and A083838 the same comment
+appears, dated July 13, 2003: ``0 in sequence indicates
+no palindrome $< 10^{15}$'' (R.~Chandler): a displayed
+zero is a finite-search observation, not a theorem of
+nonexistence.
+
+\paragraph{Published conjectures on the entries.}
+Four dated conjectural items are attached to these
+entries. On A069881, the classification of even-length
+members is the subject of \emph{Tangente}
+problem~8154~\cite{tangente}, posed after J.~McCann's
+2002 comment that every repdigit $55\ldots5$ is a term
+(``on peut conjecturer que les seuls palindromes
+$\alpha+$ ayant un nombre pair de chiffres sont $55$,
+$5555$, $555555$, \ldots''). On A083831, R.~Israel
+recorded (April 4, 2018): ``Among infinite subsequences
+are the repdigits $8\ldots8 = 8(10^k-1)/9$. It appears
+that the only terms with an even number of digits are
+these for even $k$.'' On A083829 he recorded (February
+23, 2023, tagged ``It appears'') four observations:
+the only even-length terms are the repdigits of
+A002281; all other terms of more than one digit start
+with $14$, $15$, $16$, $24$, $25$ or $26$; no term
+contains the digits $3$, $8$ or $9$; and the only terms
+containing $7$ are those of A002281. On A083833 and
+A083834, M.~S.~Branicky recorded (June 13, 2021,
+tagged ``(Conjectures)'') the digit alphabets
+$\{0,1,2,3\}$ and $\{0,1,5,6\}$ and the parity claims
+that even-length terms are the repdigit $22\ldots2$ and
+the repunit $11\ldots1$; the A083834 verbatim contains
+an even/odd slip corrected in
+Remark~\ref{rem:parity-slip}.
+
+\paragraph{Contents.}
+Section~\ref{sec:carry} presents the shared carry-chain
+device once, for every $k \in \{2,\dots,6\}$: at constant
+length the chain is symmetric and $2$-periodic, forcing
+odd length and alternating digit classes; at overflow the
+chain freezes on a single repdigit family selected by the
+head equation $kd+1 = 11v$. The instantiations settle
+all the conjectures above -- $k=2$, A069881
+(Section~\ref{sec:k2}); $k=3$, A083829 and A083830
+(Section~\ref{sec:k3}); $k=4$, A083831 and A083832
+(Section~\ref{sec:k4}); $k=5$, A083833 and A083834
+(Section~\ref{sec:k5}); $k=6$, A083835 and A083836
+(Section~\ref{sec:k6}) -- each even-length classification
+as an iff in both directions. The twenty-one displayed
+zeros of A083837 (Theorem~\ref{thm:zeros}) and of A083838
+(Corollary~\ref{cor:zeros838}) are proved in
+Section~\ref{sec:zeros} by a prefix-suffix obstruction,
+turning Chandler's bound into universal nonexistence.
+Section~\ref{sec:lean} records exactly what is
+kernel-verified in Lean~4 and in which modules, with the
+paper--kernel correspondence of Table~\ref{tab:lean}.
+
+\paragraph{Related entries, cited only.}
+Two additive variants sit next to this family and are
+already settled on their own entries: on A082274
+(palindromes $p$ with $p+2$ palindromic), F.~Fr\"ohlich's
+2014 argument on the entry shows the members are
+$\{1,\dots,7,9\}$ together with the repdigits
+$99\ldots9$; on A082275 ($p+11$ palindromic), D.~A.~Corneth's
+2025 comment proves the members are exactly the
+palindromes $d\,9^{t}\,d$ with $d \in \{1,\dots,8\}$
+\cite{a082274,a082275}. The additive shift kills the
+interior carry freedom entirely, whereas multipliers keep
+the alternating classes of Section~\ref{sec:carry}; the
+two mechanisms do not overlap and these entries are only
+pointed to, not absorbed. The repdigit and repunit
+families occurring throughout are OEIS A002279, A002113
+and A000042. In the wider literature on decimal
+palindromes we point to Harminc and Sot\'ak's study of
+palindromic numbers in arithmetic
+progressions~\cite{harmincsotak}, the theorem of Banks,
+Hart and Sakata that almost all palindromes are
+composite~\cite{banks}, and the three-palindromes
+additive basis of Cilleruelo, Luca and
+Baxter~\cite{cll}.
+
+\input{sec-carry}
+\input{sec-A069881}
+\input{sec-A083829}
+\input{sec-A083831}
+\input{sec-A083833}
+\input{sec-A083835}
+\input{sec-zeros}
+
+\section{Formal verification}
+\label{sec:lean}
+
+It is important to distinguish what is kernel-verified in
+Lean~4 from what belongs to the mathematical presentation
+of this paper:
+\begin{itemize}
+\item \emph{Kernel-verified in Lean~4~\cite{lean4}
+(v4.35.0) on top of mathlib~\cite{mathlib}
+(v4.35.0)~\cite{artifacts}:} every stated theorem, lemma
+and corollary of Sections~\ref{sec:carry}--\ref{sec:zeros}
+-- the per-multiplier carry-chain machinery, the five
+classification modules \texttt{A069881.lean},
+\texttt{A083829.lean}, \texttt{A083831.lean},
+\texttt{A083833.lean} and \texttt{A083835.lean} (the
+last containing the complete iff and the three A083836
+image companions), the thin image re-export modules
+\texttt{A083830.lean}, \texttt{A083832.lean},
+\texttt{A083834.lean} and \texttt{A083836.lean}, the
+converse module \texttt{Repdigits\_KP1.lean} holding the
+four literal repdigit iffs, and the obstruction module
+\texttt{A083837.lean} with the image corollary module
+\texttt{A083838.lean}. A deposited specification module
+per entry closes each capstone against a frozen
+specification, and sanity modules anchor the
+statements on published terms and certify that each
+proved class is inhabited.
+\item \emph{Proved in this paper only:} the repdigit
+families of Remark~\ref{rem:k1} for $k \in \{7,8,9\}$
+and the elementary $k = 1$ remark. Neither is stated as
+a kernel theorem.
+\end{itemize}
+
+Table~\ref{tab:lean} records the correspondence between
+the statements above and the Lean declarations. The
+formalization is duplicated per multiplier
+(Remark~\ref{rem:honest}): each module carries its own
+copy of the carry chain, so the correspondence is
+declared per $k$.
+
+\begin{table}[ht]
+\centering
+\small
+{\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.4cm}%
+>{\raggedright\arraybackslash}p{6.0cm}%
+>{\raggedright\arraybackslash}p{3.8cm}}
+\hline
+Paper item & Lean declaration & Module \\
+\hline
+Lemma~\ref{lem:same} ($k=2$) &
+\texttt{crry\_sym\_same}, \texttt{carry\_period\_same},
+\texttt{same\_case\_odd\_a0}, \texttt{same\_case\_digits} &
+\texttt{A069881.lean} \\
+Theorem~\ref{thm:k2-even} & \texttt{A069881\_even} (forward),
+\texttt{repdigit5\_iff\_member\_even\_}\allowbreak
+\texttt{A069881} (iff) &
+\texttt{A069881.lean}, \texttt{Repdigits\_KP1.lean} \\
+Theorem~\ref{thm:k2-dicho}, Cor.~\ref{cor:k2-img} &
+\texttt{A069881\_overflow}, \texttt{succ\_case\_all5},
+\texttt{A069881\_image\_odd} & \texttt{A069881.lean} \\
+overflow iff, $k=2$ &
+\texttt{repdigit5\_iff\_overflow\_A069881} &
+\texttt{Repdigits\_KP1.lean} \\
+Theorem~\ref{thm:k3-israel} (P1--P4) &
+\texttt{A083829\_even}, \texttt{A083829\_prefix},
+\texttt{A083829\_digits}, \texttt{A083829\_seven} &
+\texttt{A083829.lean} \\
+P1 as iff & \texttt{repdigit7\_iff\_member\_even\_}%
+\allowbreak \texttt{A083829} &
+\texttt{Repdigits\_KP1.lean} \\
+Corollary~\ref{cor:k3-alphabet} &
+\texttt{A083830\_digits}, re-export
+\texttt{A083830\_alphabet} & \texttt{A083829.lean},
+\texttt{A083830.lean} \\
+Theorem~\ref{thm:k4-even} & \texttt{A083831\_even}
+(forward), \texttt{repdigit8\_iff\_member\_even\_}%
+\allowbreak \texttt{A083831} (iff) & \texttt{A083831.lean},
+\texttt{Repdigits\_KP1.lean} \\
+Theorem~\ref{thm:k4-dig} & \texttt{A083831\_digits} &
+\texttt{A083831.lean} \\
+Corollary~\ref{cor:k4-alphabet} &
+\texttt{A083832\_digits}, re-export
+\texttt{A083832\_alphabet} & \texttt{A083831.lean},
+\texttt{A083832.lean} \\
+Theorem~\ref{thm:k5-c1}, Theorem~\ref{thm:k5-c2} &
+\texttt{A083833\_C1}, \texttt{A083833\_C2} &
+\texttt{A083833.lean} \\
+C2 as iff & \texttt{repdigit2\_iff\_member\_even\_}%
+\allowbreak \texttt{A083833} &
+\texttt{Repdigits\_KP1.lean} \\
+Corollary~\ref{cor:k5-image} &
+\texttt{A083834\_C1}, \texttt{A083834\_C2}, re-exports
+\texttt{A083834\_alphabet}, \texttt{A083834\_repunit},
+\texttt{A083834\_starts6\_odd} & \texttt{A083833.lean},
+\texttt{A083834.lean} \\
+Theorem~\ref{thm:k6-iff} & \texttt{A083835} (complete iff;
+directions \texttt{all9\_gives\_pal},
+\texttt{alt\_gives\_pal}) & \texttt{A083835.lean} \\
+Corollary~\ref{cor:k6-img} &
+\texttt{A083836\_digits}, \texttt{A083836\_even},
+\texttt{A083836\_form}, re-exports
+\texttt{A083836\_alphabet}, \texttt{A083836\_evenlen},
+\texttt{A083836\_shape} & \texttt{A083835.lean},
+\texttt{A083836.lean} \\
+Lemma~\ref{lem:altsuff} & \texttt{alt\_gives\_pal}
+(one instance per multiplier, $k \in \{2,3,4,5,6\}$) &
+\texttt{A069881.lean}, \texttt{A083829.lean},
+\texttt{A083831.lean}, \texttt{A083833.lean},
+\texttt{A083835.lean} \\
+Lemma~\ref{lem:border}, Theorem~\ref{thm:zeros} &
+\texttt{revW}, \texttt{okP}, \texttt{escapesIn},
+\texttt{prefix\_escapes}, \texttt{zero\_of\_escapes},
+\texttt{no\_wit\_}$k$, \texttt{A083837\_}$k$\texttt{\_zero}
+($21$ indices $k$) & \texttt{A083837.lean} \\
+Corollary~\ref{cor:zeros838} &
+\texttt{A083838\_}$k$\texttt{\_zero} ($21$ corollaries) &
+\texttt{A083838.lean} \\
+\hline
+\end{tabular}}
+\caption{Correspondence between mathematical statements
+and Lean~4 declarations. The $21$ zero indices are
+$\{12,17,23,31,37,41,42,48,51,53,61,64,71,74,79,81,86,
+91,96,101,103\}$.}
+\label{tab:lean}
+\end{table}
+
+The axiom audits report, for every declaration listed in
+Table~\ref{tab:lean}, only the three standard axioms
+\texttt{propext}, \texttt{Classical.choice} and
+\texttt{Quot.sound}; a source scan confirms zero
+\texttt{sorry} and zero \texttt{native\_decide}. Finite
+digit checks (small cases, the per-$k$ head equation,
+the escape lists of Section~\ref{sec:zeros}) are decided
+inside the kernel by \texttt{decide} and
+\texttt{interval\_cases} on closed values; the carry-chain
+and obstruction arguments are ordinary proofs. The sealed
+version of the A083833 module was additionally replayed
+declaration-by-declaration through three external kernel
+checkers~\cite{kernels} -- \texttt{nanoda},
+\texttt{con-leche} and its Rust port \texttt{con-ron} --
+each at exit status $0$; the other modules rely on the
+kernel build and the axiom audit, the same trust base as
+their previously deposited artifacts~\cite{artifacts}.
+
+\paragraph{Scope.} The certified theorems are universal
+properties of the members -- digit classes, parity of the
+length, repdigit and repunit families, the complete
+classification at $k = 6$, and universal nonexistence at
+the twenty-one zero indices. They are consistent with
+every published term of the eleven entries; completeness
+of the displayed lists is a separate empirical matter,
+not claimed here. The nonzero displayed values of
+A083837 and A083838 are likewise outside the certified
+perimeter: what is proved is the zero clause, for every
+candidate palindrome of any length. Convention: the
+membership predicate is taken over $m \ge 1$ digit
+expansions without leading zero, so $p = 0$ is outside
+the specification domain throughout.
+
+\begin{remark}[the converse is kernel-verified at every
+$k$]
+\label{rem:sufftask}
+At $k = 6$ the kernel proves the complete iff
+(Theorem~\ref{thm:k6-iff}): the alternating-class
+condition is both necessary and sufficient.
+Lemma~\ref{lem:altsuff} is its paper-level umbrella
+across multipliers, and the kernel now carries the same
+theorem inside each classification module as
+\texttt{alt\_gives\_pal} (Table~\ref{tab:lean}).
+\end{remark}
+
+\section{Open items}
+\label{sec:open}
+
+\begin{question}[the family beyond $k = 6$]
+\label{q:beyond}
+The head key $kd+1 = 11v$ does not by itself select a
+repdigit overflow family: for $p = d\,R_m$ one has
+$kp+1 = v\,10^m + (2v-1)\,(10^m-10)/9 + v$, the digit
+string $v\,(2v-1)^{m-1}\,v$, which is a palindrome
+without carries exactly when $2v-1 \le 9$, i.e.\
+$v \le 5$. Beyond the certified perimeter the digit
+solutions $(d,v) = (1,1)$ at $k = 10$, $(2,3)$ at
+$k = 16$ and $(3,5)$ at $k = 18$ satisfy the bound and
+give the infinite families $1^m \mapsto 1^{m+1}$,
+$2^m \mapsto 3\,5^{\,m-1}\,3$ and
+$3^m \mapsto 5\,9^{\,m-1}\,5$, matching the displayed
+$a(10) = 1$, $a(16) = 2$, $a(18) = 3$; the solutions
+$(5,6)$ at $k = 13$ and $(7,9)$ at $k = 14$ fail it --
+$13\cdot55+1 = 716$ and $14\cdot77+1 = 1079$ are not
+palindromes -- and the repdigit branch yields only the
+displayed one-digit witnesses $a(13) = 5$, $a(14) = 7$
+(at $k = 17$ the congruence forces $v = 14$, off the
+digit range, consistent with the certified zero);
+witnesses also occur without any head-key solution, as
+$a(11) = 55$ through $11\cdot55+1 = 606$. For
+$k \ge 10$ the bound $c_j \le k-1$ leaves the
+single-digit regime and the carry device needs
+extension. Whether the sets $S_k$ for
+$k \in \{7,8,9\}$ -- and beyond -- admit the same
+two-branch classification, and whether the certified
+zero set exhausts the zero set of the entry, is open.
+\end{question}
+
+\section{Code availability}
+\label{sec:code}
+
+The Lean~4 sources of the previously deposited A083833
+development are archived in the open
+record~\cite{artifacts}; the consolidated development
+covering the eleven sequences treated here -- the five
+classification modules, the image re-exports, the
+converse module \texttt{Repdigits\_KP1.lean} and the
+obstruction modules \texttt{A083837.lean} and
+\texttt{A083838.lean}, together with the specification
+and sanity modules and the pinned build files -- is
+deposited alongside this article in its verification
+record.
+
+\section*{Use of AI tools}
+Generative AI tools assisted in OEIS transcription,
+auditing, proof sketching, and text review, within a
+verification methodology designed and supervised by the
+author. The theorems of
+Sections~\ref{sec:carry}--\ref{sec:zeros} are verified
+from standard axioms only in the Lean~4 kernel, with the
+Lean source archived in the verification record. The
+author selected the problems and proof strategies,
+arbitrated all discrepancies, verified OEIS fidelity,
+and takes full responsibility for this work.
+
+\section*{Funding}
+No funding was received for this work.
+
+\section*{Competing interests}
+The author declares none.
+
+\begin{thebibliography}{99}
+
+\bibitem{oeis}
+OEIS Foundation Inc.~(2026), \emph{The On-Line
+Encyclopedia of Integer Sequences},
+\url{https://oeis.org}; entries A069881 (A.~Murthy,
+April 30 2002), A083829--A083838 (A.~Murthy and
+M.~Srikanth, May 9 2003), all corrected and extended by
+R.~Chandler, May 2003.
+
+\bibitem{tangente}
+\emph{Tangente}, problem~8154 (the only even-digit
+palindromes $\alpha+$ are $55, 5555, 555555, \ldots$;
+as cited on OEIS A069881).
+
+\bibitem{a082274}
+OEIS Foundation Inc.~(2026), \emph{Entry A082274 in The
+On-Line Encyclopedia of Integer Sequences},
+\url{https://oeis.org/A082274} (A.~Murthy, April 13
+2003; characterization proved on the entry by
+F.~Fr\"ohlich, July 2014).
+
+\bibitem{a082275}
+OEIS Foundation Inc.~(2026), \emph{Entry A082275 in The
+On-Line Encyclopedia of Integer Sequences},
+\url{https://oeis.org/A082275} (A.~Murthy, April 13
+2003; characterization proved on the entry by
+D.~A.~Corneth, July 2025).
+
+\bibitem{harmincsotak}
+M.~Harminc and R.~Sot\'ak, \emph{Palindromic numbers in
+arithmetic progressions}, Fibonacci Quart.\ \textbf{36}
+(1998), no.~3, 259--262,
+\url{https://doi.org/10.1080/00150517.1998.12428937}.
+
+\bibitem{banks}
+W.~D. Banks, D.~Hart and M.~Sakata, \emph{Almost all
+palindromes are composite}, Math.\ Res.\ Lett.\
+\textbf{11} (2004), 853--868,
+\url{https://doi.org/10.4310/MRL.2004.v11.n6.a10}.
+
+\bibitem{cll}
+J.~Cilleruelo, F.~Luca and L.~Baxter, \emph{Every
+positive integer is a sum of three palindromes}, Math.\
+Comp.\ \textbf{87} (2018), 3023--3055,
+\url{https://doi.org/10.1090/mcom/3221}.
+
+\bibitem{holte}
+J.~M. Holte, \emph{Carries, combinatorics, and an
+amazing matrix}, Amer.\ Math.\ Monthly \textbf{104}
+(1997), no.~2, 138--149,
+\url{https://doi.org/10.1080/00029890.1997.11990612}.
+
+\bibitem{lean4}
+L.~de~Moura and S.~Ullrich, \emph{The Lean 4 theorem
+prover and programming language}, in A.~Platzer and
+G.~Sutcliffe (eds.), CADE-28, Lecture Notes in
+Comput.\ Sci.\ 12699 (2021) 625--635.
+
+\bibitem{mathlib}
+The mathlib Community, \emph{The Lean mathematical
+library}, CPP '20: Proc.\ 9th ACM SIGPLAN Int.\ Conf.\
+Certified Programs and Proofs (2020) 367--381.
+
+\bibitem{artifacts}
+F.~Gaudin, \emph{Consolidated Lean~4 formalization of
+the $kp+1$ palindrome family (OEIS A069881, A083829,
+A083830, A083831, A083832, A083833, A083834, A083835,
+A083836, A083837, A083838)}, Lean~4 + mathlib
+(v4.35.0); package deposited alongside this article
+\url{https://doi.org/10.5281/zenodo.24420836}.
+The previously deposited A083833
+development is archived at
+\url{https://doi.org/10.5281/zenodo.24078012} (open).
+
+\bibitem{kernels}
+Independent third-party Lean~4 kernel checkers used for
+the export replay (separate projects, not part of the
+\texttt{leanprover/lean4:v4.35.0} distribution, which
+ships its own \texttt{leanchecker}): \texttt{nanoda\_bin}
+(Rust kernel checker), C.~Bailey,
+\url{https://github.com/ammkrn/nanoda_lib}, commit
+\texttt{0da9f98}; \texttt{con-leche} (Lean~4 kernel
+checker implemented in Lean, with a machine-checked
+consistency proof), Lean FRO,
+\url{https://github.com/leanprover/con-leche}, commit
+\texttt{d7d2b7c}; \texttt{con-ron} (Rust port of the
+\texttt{con-leche} kernel checker), Lean FRO,
+\url{https://github.com/leanprover/con-ron}, commit
+\texttt{42a0864}. Commits pinned as of 2026-11-13.
+
+\end{thebibliography}
+
+\end{document}

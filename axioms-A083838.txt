@@ -1,0 +1,27 @@
+A083838 - axiom audit report (#print axioms)
+=============================================
+
+The A083838 (image sequence q = k*A083837(k)+1) results are the
+twenty-one corollaries A083838_<k>_zero of module A083838.lean,
+each a direct consequence of the corresponding A083837
+nonexistence theorem. They were audited together with the
+A083837 capstones in the same CI job; see axioms-A083837.txt for
+the full report (run 44895777039, LEAN_EXIT=0, all audited
+declarations at most [propext, Classical.choice, Quot.sound]).
+
+Audited A083838 declarations (from AxiomsReport_A083837.lean,
+which ships in this record):
+
+- corollaries A083838_<k>_zero - the audit prints the sample
+  {12, 48, 79, 101}; the remaining 17 corollaries have the same
+  shape (a one-line projection of the matching A083837 theorem,
+  covered by the same green build) ;
+- spec closure: SpecA083838, proven_A083838.
+
+Reported outcome (CI log, artifact lean-log-44895777039):
+[propext, Classical.choice, Quot.sound] at most on every audited
+declaration - zero sorryAx, zero ofReduceBool / native_decide.
+
+Provenance note: same consolidation caveat as
+axioms-A083837.txt - outcome documented from the CI run log of
+the mission record, not re-extracted locally.
